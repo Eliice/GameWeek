@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class Player : MonoBehaviour {
@@ -10,6 +11,10 @@ public class Player : MonoBehaviour {
     [SerializeField]
     private int m_forceLimit = 100;
 
+    [SerializeField]
+    private Slider m_strenghtBar = null;
+
+
     #region jump
     [SerializeField]
     float gravity = 9.81f;
@@ -20,6 +25,16 @@ public class Player : MonoBehaviour {
     private Vector3 m_direction = new Vector3();
     private bool m_canDash = true;
     private float m_force = 0;
+
+
+
+    public void AddForce()
+    {
+        m_force += m_forceIncrement * Time.deltaTime;
+        if (m_force >= m_forceLimit)
+            m_force = m_forceLimit;
+        m_strenghtBar.value = (m_force / m_forceLimit) * 100;
+    }
 
     void Update ()
     {
