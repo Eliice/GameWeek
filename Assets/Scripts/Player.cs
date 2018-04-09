@@ -7,6 +7,8 @@ public class Player : MonoBehaviour {
     private float m_speed = 10f;
     [SerializeField]
     private int m_forceIncrement = 2;
+    [SerializeField]
+    private int m_forceLimit = 100;
 
     #region jump
     [SerializeField]
@@ -42,7 +44,7 @@ public class Player : MonoBehaviour {
 
     void checkJump ()
     {
-        if (canJump && Input.GetKey(KeyCode.Z))
+        if (canJump && Input.GetKey(KeyCode.Z) && m_force <= m_forceLimit)
         {
             m_force += m_forceIncrement * Time.deltaTime;
         }
@@ -55,7 +57,7 @@ public class Player : MonoBehaviour {
 
     void checkDash ()
     {
-        if (m_canDash && Input.GetKey(KeyCode.S))
+        if (m_canDash && Input.GetKey(KeyCode.S) && m_force <= m_forceLimit)
         {
             m_force += m_forceIncrement * Time.deltaTime;
         }
