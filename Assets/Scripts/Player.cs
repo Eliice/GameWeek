@@ -1,95 +1,91 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class Player : MonoBehaviour {
 
+    //[SerializeField]
+    private Controller controller; 
     [SerializeField]
     private float m_speed = 10f;
     [SerializeField]
-    private int m_forceIncrement = 2;
+    private float m_forceIncrement = 2;
     [SerializeField]
-    private int m_forceLimit = 100;
+    private float m_forceLimit = 100;
 
-    #region jump
+    public float Gravity { get { return gravity; } }
+    public float ForceLimit { get { return m_force ; } }
+    public float ForceIncrement { get { return m_forceIncrement; } }
+    public float Speed
+    {
+        get { return m_speed; }
+        set { m_speed = value; }
+    }
+    public float Force
+    {
+        get { return m_force; }
+        set { m_force = value; }
+    }
+    public bool CanJump
+    {
+        get { return canJump; }
+        set { canJump = value; }
+    }
+    public bool CanDash
+    {
+        get { return canDash; }
+        set { canDash = value; }
+    }
+
+    #region moveActions
     [SerializeField]
     float gravity = 9.81f;
     bool canJump = true;
+    bool canDash = true;
     #endregion
 
-    public float Speed { set { m_speed = value; } }
+    private static Player instance;
+
+    /// instance unique de la classe    
+    public static Player Instance
+    {
+        get
+        {
+            return instance;
+        }
+    }
+
+    protected void Awake()
+    {
+        if (instance != null)
+        {
+            throw new Exception("Tentative de création d'une autre instance de Player alors que c'est un singleton.");
+        }
+        instance = this;
+
+        controller = GetComponent<ControllerKeyboard>();
+    }
+
     private Vector3 m_direction = new Vector3();
-    private bool m_canDash = true;
     private float m_force = 0;
 
-    void Update ()
+    public void MoveHorizontal (bool isGoingRight)
     {
-        Move();
-        checkDash();
-        checkJump();
-	}
-
-    void Move ()
-    {
-        if (Input.GetKey(KeyCode.Q))
+        if (!isGoingRight)
             m_direction.x = -m_speed;
-
-        else if (Input.GetKey(KeyCode.D))
-            m_direction.x = m_speed;
-
         else
-            m_direction.x = 0;          
+            m_direction.x = m_speed;
 
         transform.Translate(m_direction * Time.deltaTime);
     }
 
-    void checkJump ()
+    public void Stand()
     {
-        if (canJump && Input.GetKey(KeyCode.Z) && m_force <= m_forceLimit)
-        {
-            m_force += m_forceIncrement * Time.deltaTime;
-        }
-
-        if (Input.GetKeyUp(KeyCode.Z))
-        {
-            StartCoroutine(Jump());
-        }
+        m_direction.x = 0;
     }
 
-    void checkDash ()
+    protected void OnDestroy()
     {
-        if (m_canDash && Input.GetKey(KeyCode.S) && m_force <= m_forceLimit)
-        {
-            m_force += m_forceIncrement * Time.deltaTime;
-        }
-
-        if (Input.GetKeyUp(KeyCode.S))
-        {
-            Debug.Log("Dash Power : " + m_force);
-            m_force = 0;
-        }
+        instance = null;
     }
-
-    IEnumerator Jump()
-    {
-        float force = m_force;
-        m_force = 0;
-        Vector3 initalPos = transform.position;
-        Vector3 pos;
-        do
-        {
-            pos = gameObject.transform.position;
-            pos.y += force * Time.deltaTime;
-            transform.position = pos;
-            force -= gravity * Time.deltaTime;
-            yield return new WaitForEndOfFrame();
-        } while (initalPos.y < transform.position.y);
-
-        if (transform.position.y < initalPos.y)
-        {
-            pos.y = initalPos.y;
-            transform.position = pos;
-        }
-        canJump = true;
-    }
-
 }
