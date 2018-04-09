@@ -11,12 +11,11 @@ public class Player : MonoBehaviour {
     #region jump
     [SerializeField]
     float gravity = 9.81f;
-    bool jump = false;
+    bool canJump = true;
     #endregion
 
     public float Speed { set { m_speed = value; } }
     private Vector3 m_direction = new Vector3();
-    private bool m_canJump = true;
     private bool m_canDash = true;
     private float m_force = 0;
 
@@ -43,14 +42,13 @@ public class Player : MonoBehaviour {
 
     void checkJump ()
     {
-        if (m_canJump && Input.GetKey(KeyCode.Z))
+        if (canJump && Input.GetKey(KeyCode.Z))
         {
             m_force += m_forceIncrement * Time.deltaTime;
         }
 
         if (Input.GetKeyUp(KeyCode.Z))
         {
-            m_canJump = false;
             StartCoroutine(Jump());
         }
     }
@@ -89,7 +87,7 @@ public class Player : MonoBehaviour {
             pos.y = initalPos.y;
             transform.position = pos;
         }
-        jump = false;
+        canJump = true;
     }
 
 }
