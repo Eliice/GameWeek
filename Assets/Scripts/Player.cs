@@ -19,7 +19,8 @@ public class Player : MonoBehaviour
 
     private Animator m_animator = null;
     public Animator CharacterAnimator { get { return m_animator; } }
-    
+
+    private Rigidbody m_rigidBody = null;
 
     private Vector3 m_direction = new Vector3();
     Vector3 dashDirection = new Vector3();
@@ -52,6 +53,7 @@ public class Player : MonoBehaviour
             instance = this;
         }
         m_animator = gameObject.GetComponent<Animator>();
+        m_rigidBody = gameObject.GetComponent<Rigidbody>();
     }
 
     public void AddForce()
@@ -94,8 +96,20 @@ public class Player : MonoBehaviour
     public void Jump()
     {
         CameraShake.Shake(0.20f, 0.15f);
-        StartCoroutine(JumpCoroutine());
+        m_animator.SetBool("Jump", true);
+        m_rigidBody.AddForce(new Vector3(0, m_force, 0), ForceMode.Impulse);
+        ResetForce();
     }
+
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag == "Floor")
+        {
+            m_animator.SetBool("Jump", false);
+        }
+    }
+
 
     public void Dash()
     {
@@ -103,30 +117,6 @@ public class Player : MonoBehaviour
         dashDirection.x = sign * m_force * dashFactor;
         ResetForce();
         StartCoroutine(DashCoroutine(dashTime, transform.position + dashDirection));
-    }
-
-    IEnumerator JumpCoroutine()
-    {
-        m_animator.SetBool("Jump",true);
-        float force = m_force;
-        ResetForce();
-        Vector3 initalPos = transform.position;
-        Vector3 pos;
-        do 
-        {
-            pos = gameObject.transform.position;
-            pos.y += force * Time.deltaTime;
-            transform.position = pos;
-            force -= gravity * Time.deltaTime;
-            yield return new WaitForEndOfFrame();
-        } while (initalPos.y < transform.position.y);
-
-        if (transform.position.y < initalPos.y)
-        {
-            pos.y = initalPos.y;
-            transform.position = pos;
-        }
-        m_animator.SetBool("Jump", false);
     }
 
     IEnumerator DashCoroutine(float time, Vector3 dir)
