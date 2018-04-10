@@ -54,6 +54,11 @@ public class Player : MonoBehaviour {
             m_strenghtBar.value = (m_force / m_forceLimit) * 100;
     }
 
+    public void ResetForce()
+    {
+        m_force = 0f;
+        m_strenghtBar.value = 0;
+    }
     
     public void MoveHorizontal (bool isGoingRight)
     {
