@@ -43,7 +43,14 @@ public class Player : MonoBehaviour {
 
     private void Awake()
     {
-        instance = this;
+       if (instance)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
     }
 
     public void AddForce()
