@@ -40,7 +40,6 @@ public class Player : MonoBehaviour
                 return instance;
             else
             {
-                Debug.LogAssertion("try to get null player");
                 return null;
             }
         }
@@ -67,8 +66,8 @@ public class Player : MonoBehaviour
         //Debug.DrawLine(rayLeft.origin, rayLeft.GetPoint(transform.localScale.y), Color.red);
         rayLeft = new Ray(new Vector3(transform.position.x, transform.position.y, 0), -transform.right);
         rayRight = new Ray(new Vector3(transform.position.x, transform.position.y, 0), transform.right);
-        Debug.DrawLine(rayLeft.origin, rayLeft.GetPoint(1f), Color.red);
-        Debug.DrawLine(rayRight.origin, rayRight.GetPoint(1f), Color.blue);
+        //Debug.DrawLine(rayLeft.origin, rayLeft.GetPoint(1f), Color.red);
+        //Debug.DrawLine(rayRight.origin, rayRight.GetPoint(1f), Color.blue);
 
         RaycastHit hitInfoLeft;
         RaycastHit hitInfoRight;
@@ -83,7 +82,7 @@ public class Player : MonoBehaviour
         }
         else
             canGoLeft = true;
-        Debug.Log("Left : " + canGoLeft);
+        //Debug.Log("Left : " + canGoLeft);
 
         if (Physics.Raycast(rayRight, out hitInfoRight, 1f))
         {
@@ -95,7 +94,7 @@ public class Player : MonoBehaviour
         }
         else
             canGoRight = true;
-        Debug.Log("Right : " + canGoRight);
+        //Debug.Log("Right : " + canGoRight);
     }
 
     public void AddForce()
@@ -167,7 +166,7 @@ public class Player : MonoBehaviour
             m_direction.x = 0;
         }
         if (m_animator.GetBool("Dash"))
-            m_animator.SetBool("Dash",false);
+            m_animator.SetBool("Dash", false);
         /*foreach (BoxCollider col in colliders)
         {
             if (col.name == "LeftCol" || col.name == "RightCol")
