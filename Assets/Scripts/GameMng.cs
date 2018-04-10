@@ -1,5 +1,7 @@
-﻿using System;
+﻿
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class GameMng : MonoBehaviour {
 
@@ -14,6 +16,7 @@ public class GameMng : MonoBehaviour {
 
     private Vector3 m_respawn = new Vector3();
 
+    private GameObject spawnParent = null;
 
     private bool m_keyboardInput = true;
     public Vector3 Respawn
@@ -73,12 +76,14 @@ public class GameMng : MonoBehaviour {
     {
         if(!m_player)
         {
+            spawnParent = GameObject.FindGameObjectWithTag("Respawn");
             m_playerObject = Instantiate<GameObject>(m_playerPrefab);
             m_player = Player.Instance;
             if (m_keyboardInput)
                 m_playerObject.AddComponent<ControllerKeyboard>();
             else
                 m_playerObject.AddComponent<ControllerPad>();
+            m_playerObject.transform.SetParent(spawnParent.transform);
         }
         else
         {

@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class UIControler : MonoBehaviour {
@@ -10,6 +12,12 @@ public class UIControler : MonoBehaviour {
     [SerializeField]
     private GameObject m_menuScreen = null;
 
+    [SerializeField]
+    private GameObject m_loadingScreen = null;
+
+
+    [SerializeField]
+    private float m_loadingTime = 2f;
 
 	// Use this for initialization
 	void Start () {
@@ -41,7 +49,27 @@ public class UIControler : MonoBehaviour {
 
     public void LoadPlayScene()
     {
-        SceneManager.LoadScene(1);
+        m_loadingScreen.SetActive(true);
+        m_menuScreen.SetActive(false);
+        StartCoroutine(loadingRoutine());
+        SceneManager.LoadScene(1, LoadSceneMode.Additive);
+    }
+
+
+    private void StartGame()
+    {
         GameMng.Instance.SpawnPlayer();
+        SceneManager.UnloadSceneAsync(0);
+    }
+
+    private IEnumerator loadingRoutine()
+    {
+        float timer = 0f;
+        while (timer < m_loadingTime)
+        {
+            yield return new WaitForEndOfFrame();
+            timer += Time.deltaTime;
+        }
+        StartGame();
     }
 }
