@@ -10,9 +10,9 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float m_speed = 10f;
     [SerializeField]
-    private float m_forceIncrement = 2;
+    private float m_forceIncrement = 2f;
     [SerializeField]
-    private float m_forceLimit = 100;
+    private float m_forceLimit = 10f;
     [SerializeField]
     private Slider m_strenghtBar = null;
     [SerializeField]
@@ -27,8 +27,9 @@ public class Player : MonoBehaviour
     
 
     private Vector3 m_direction = new Vector3();
+    Vector3 dashDirection = new Vector3();
     private float m_force = 0;
-
+    private float dashTime = 0.35f;
 
     private static Player instance;
     public static Player Instance
@@ -60,10 +61,11 @@ public class Player : MonoBehaviour
 
     public void AddForce()
     {
-
-        m_force += m_forceIncrement * Time.deltaTime;
-        if (m_force >= m_forceLimit)
-            m_force = m_forceLimit;
+        Debug.Log(m_force);
+        if (m_force < m_forceLimit)
+        {
+            m_force += m_forceIncrement * Time.deltaTime;
+        }
     }
 
     public void ResetForce()
@@ -99,6 +101,14 @@ public class Player : MonoBehaviour
         StartCoroutine(JumpCoroutine());
     }
 
+    public void Dash()
+    {
+        float sign = m_direction.x < 0 ? -1 : 1; // if the direction.x = 0, will go right
+        dashDirection.x = sign * m_force * dashFactor;
+        ResetForce();
+        StartCoroutine(DashCoroutine(dashTime, transform.position + dashDirection));
+    }
+
     IEnumerator JumpCoroutine()
     {
         m_animator.SetBool("Jump",true);
@@ -123,14 +133,7 @@ public class Player : MonoBehaviour
         m_animator.SetBool("Jump", false);
     }
 
-    public void Dash()
-    {
-        Vector3 dashDirection = new Vector3(m_force * dashFactor, 0, 0);
-        ResetForce();
-        StartCoroutine(DashCoroutine(0.35f, new Vector3(transform.position.x, transform.position.y, 0), new Vector3(transform.position.x + dashDirection.x, transform.position.y, 0)));
-    }
-
-    IEnumerator DashCoroutine(float time, Vector3 begin, Vector3 end)
+    IEnumerator DashCoroutine(float time, Vector3 end)
     {
         m_animator.SetBool("Dash", true);
         float currentTime = 0;
@@ -140,7 +143,7 @@ public class Player : MonoBehaviour
         {
             currentTime += Time.deltaTime;
             normalizedValue = currentTime / time;
-            transform.position = Vector3.Lerp(begin, end, normalizedValue);
+            transform.position = Vector3.Lerp(transform.position, end, normalizedValue);
             yield return new WaitForEndOfFrame();
         }
         m_animator.SetBool("Dash", false);
