@@ -3,7 +3,8 @@ using UnityEngine.UI;
 using System.Collections;
 using System;
 
-public class Player : MonoBehaviour {
+public class Player : MonoBehaviour
+{
 
     private Controller m_controller;
     public Controller Controller { set { m_controller = value; } }
@@ -20,7 +21,6 @@ public class Player : MonoBehaviour {
     float gravity = 9.81f;
     [SerializeField]
     float dashFactor = 1f;
-
 
     public bool CanJump
     {
@@ -41,7 +41,7 @@ public class Player : MonoBehaviour {
     private float m_force = 0;
 
 
-    private static Player instance;  
+    private static Player instance;
     public static Player Instance
     {
         get
@@ -66,7 +66,7 @@ public class Player : MonoBehaviour {
         m_force += m_forceIncrement * Time.deltaTime;
         if (m_force >= m_forceLimit)
             m_force = m_forceLimit;
-            m_strenghtBar.value = (m_force / m_forceLimit) * 100;
+        m_strenghtBar.value = (m_force / m_forceLimit) * 100;
     }
 
     public void ResetForce()
@@ -74,8 +74,8 @@ public class Player : MonoBehaviour {
         m_force = 0f;
         m_strenghtBar.value = 0;
     }
-    
-    public void MoveHorizontal (bool isGoingRight)
+
+    public void MoveHorizontal(bool isGoingRight)
     {
         if (!isGoingRight)
             m_direction.x = -m_speed;
@@ -120,11 +120,23 @@ public class Player : MonoBehaviour {
 
     public void Dash()
     {
-        Debug.Log("Dash power : " + m_force);
         Vector3 dashDirection = new Vector3(m_force * dashFactor, 0, 0);
         ResetForce();
-
-        transform.Translate(dashDirection * Time.deltaTime);
+        StartCoroutine(DashCoroutine(0.35f, new Vector3(transform.position.x, 0, 0), new Vector3(transform.position.x + dashDirection.x, 0, 0)));
     }
 
+    IEnumerator DashCoroutine(float time, Vector3 begin, Vector3 end)
+    {
+        float currentTime = 0;
+        float normalizedValue;
+
+        while (currentTime < time)
+        {
+            currentTime += Time.deltaTime;
+            normalizedValue = currentTime / time;
+            //float curvedValue = motionCurve.Evaluate(normalizedValue);
+            transform.position = Vector3.Lerp(begin, end, normalizedValue);
+            yield return null;
+        }
+    }
 }
