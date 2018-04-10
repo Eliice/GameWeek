@@ -1,73 +1,66 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System;
 
 public class Player : MonoBehaviour {
 
-    //[SerializeField]
-    private Controller controller; 
+    private Controller m_controller;
+    public Controller Controller { set { m_controller = value; } }
+
     [SerializeField]
     private float m_speed = 10f;
     [SerializeField]
     private float m_forceIncrement = 2;
     [SerializeField]
     private float m_forceLimit = 100;
-
-    public float Gravity { get { return gravity; } }
-    public float ForceLimit { get { return m_force ; } }
-    public float ForceIncrement { get { return m_forceIncrement; } }
-    public float Speed
-    {
-        get { return m_speed; }
-        set { m_speed = value; }
-    }
-    public float Force
-    {
-        get { return m_force; }
-        set { m_force = value; }
-    }
-    public bool CanJump
-    {
-        get { return canJump; }
-        set { canJump = value; }
-    }
-    public bool CanDash
-    {
-        get { return canDash; }
-        set { canDash = value; }
-    }
-
-    #region moveActions
+    [SerializeField]
+    private Slider m_strenghtBar = null;
     [SerializeField]
     float gravity = 9.81f;
+
     bool canJump = true;
     bool canDash = true;
-    #endregion
 
-    private static Player instance;
+    private Vector3 m_direction = new Vector3();
+    private float m_force = 0;
 
-    /// instance unique de la classe    
+
+    private static Player instance;  
     public static Player Instance
     {
         get
         {
-            return instance;
+            if (instance != null)
+                return instance;
+            else
+            {
+                Debug.LogAssertion("try to get null player");
+                return null;
+            }
         }
     }
 
-    protected void Awake()
+
+
+    private void Awake()
     {
-        if (instance != null)
-        {
-            throw new Exception("Tentative de création d'une autre instance de Player alors que c'est un singleton.");
-        }
         instance = this;
-
-        controller = GetComponent<ControllerKeyboard>();
     }
 
-    private Vector3 m_direction = new Vector3();
-    private float m_force = 0;
+    public void AddForce()
+    {
+        m_force += m_forceIncrement * Time.deltaTime;
+        if (m_force >= m_forceLimit)
+            m_force = m_forceLimit;
+            m_strenghtBar.value = (m_force / m_forceLimit) * 100;
+    }
+
+    void Update ()
+    {
+       
+    }
+
 
     public void MoveHorizontal (bool isGoingRight)
     {
@@ -84,8 +77,4 @@ public class Player : MonoBehaviour {
         m_direction.x = 0;
     }
 
-    protected void OnDestroy()
-    {
-        instance = null;
-    }
 }
