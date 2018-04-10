@@ -10,10 +10,10 @@ public class Player : MonoBehaviour
     private float m_forceIncrement = 2f;
     [SerializeField]
     private float m_forceLimit = 10f;
-    [SerializeField]
+
     private Slider m_strenghtBar = null;
-    [SerializeField]
-    float gravity = 9.81f;
+
+
     [SerializeField]
     float dashFactor = 1f;
 
@@ -54,6 +54,7 @@ public class Player : MonoBehaviour
         }
         m_animator = gameObject.GetComponent<Animator>();
         m_rigidBody = gameObject.GetComponent<Rigidbody>();
+        m_strenghtBar = GameObject.FindGameObjectWithTag("ForceBar").GetComponent<Slider>();
     }
 
     public void AddForce()
@@ -95,7 +96,6 @@ public class Player : MonoBehaviour
 
     public void Jump()
     {
-        CameraShake.Shake(0.20f, 0.15f);
         m_animator.SetBool("Jump", true);
         m_rigidBody.AddForce(new Vector3(0, m_force, 0), ForceMode.Impulse);
         ResetForce();
@@ -121,7 +121,7 @@ public class Player : MonoBehaviour
 
     IEnumerator DashCoroutine(float time, Vector3 dir)
     {
-        m_animator.SetBool("Dash", true);
+        
         float currentTime = 0;
         float normalizedValue;
 
