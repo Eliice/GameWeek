@@ -41,28 +41,27 @@ public class ControllerKeyboard : Controller
 
     override protected void checkJump()
     {
-        if (m_player.CanJump && Input.GetKey(KeyCode.Z) && m_player.Force <= m_player.ForceLimit)
+        if (m_player.CanJump && Input.GetKey(KeyCode.Space))
         {
-            m_player.Force += m_player.ForceIncrement * Time.deltaTime;
+            m_player.AddForce();
         }
 
-        if (Input.GetKeyUp(KeyCode.Z))
+        if (Input.GetKeyUp(KeyCode.Space))
         {
-            StartCoroutine(Jump());
+            m_player.Jump();
         }
     }
 
     override protected void checkDash()
     {
-        if (m_player.CanDash && Input.GetKey(KeyCode.S) && m_player.Force <= m_player.ForceLimit)
+        if (m_player.CanDash && Input.GetKey(KeyCode.LeftShift))
         {
-            m_player.Force += m_player.ForceIncrement * Time.deltaTime;
+            m_player.AddForce();
         }
 
-        if (Input.GetKeyUp(KeyCode.S))
+        if (Input.GetKeyUp(KeyCode.LeftShift))
         {
-            Debug.Log("Dash Power : " + m_player.Force);
-            m_player.Force = 0;
+            m_player.Dash();
         }
     }
 

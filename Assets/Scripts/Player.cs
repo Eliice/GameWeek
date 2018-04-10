@@ -19,6 +19,19 @@ public class Player : MonoBehaviour {
     [SerializeField]
     float gravity = 9.81f;
 
+
+    public bool CanJump
+    {
+        get { return canJump; }
+        set { canJump = value; }
+    }
+
+    public bool CanDash
+    {
+        get { return canDash; }
+        set { canDash = value; }
+    }
+
     bool canJump = true;
     bool canDash = true;
 
@@ -80,6 +93,43 @@ public class Player : MonoBehaviour {
     public void Stand()
     {
         m_direction.x = 0;
+    }
+
+    public void Jump()
+    {
+        StartCoroutine(JumpCoroutine());
+    }
+
+    IEnumerator JumpCoroutine()
+    {
+        float force = m_force;
+        ResetForce();
+        Vector3 initalPos = transform.position;
+        Vector3 pos;
+        do
+        {
+            pos = gameObject.transform.position;
+            pos.y += force * Time.deltaTime;
+            transform.position = pos;
+            force -= gravity * Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        } while (initalPos.y < transform.position.y);
+
+        if (transform.position.y < initalPos.y)
+        {
+            pos.y = initalPos.y;
+            transform.position = pos;
+        }
+        canJump = true;
+    }
+
+    public void Dash()
+    {
+        Debug.Log("Dash power : " + m_force);
+        Vector3 dashDirection = new Vector3(m_force, 0, 0);
+        ResetForce();
+
+        transform.Translate(dashDirection * Time.deltaTime);
     }
 
 }
