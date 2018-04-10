@@ -5,9 +5,6 @@ using System;
 
 public class Player : MonoBehaviour {
 
-    private Controller m_controller;
-    public Controller Controller { set { m_controller = value; } }
-
     [SerializeField]
     private float m_speed = 10f;
     [SerializeField]

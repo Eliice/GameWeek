@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class GameMng : MonoBehaviour {
 
@@ -12,6 +13,9 @@ public class GameMng : MonoBehaviour {
     private GameObject m_playerPrefab = null;
 
     private Vector3 m_respawn = new Vector3();
+
+
+    private bool m_keyboardInput = true;
     public Vector3 Respawn
     {
         set
@@ -35,15 +39,34 @@ public class GameMng : MonoBehaviour {
         DontDestroyOnLoad(gameObject);
     }
 
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    public void SwitchInput()
+    {
+        if (m_keyboardInput)
+            SwithcToPad();
+        else
+            SwitchToKeyboard();
+    }
+
+    private void SwitchToKeyboard()
+    {
+        m_keyboardInput = true;
+        if(m_playerObject)
+        {
+            m_playerObject.AddComponent<ControllerKeyboard>();
+            Destroy(m_playerObject.GetComponent<ControllerPad>());
+        }
+    }
+
+    private void SwithcToPad()
+    {
+        m_keyboardInput = false;
+        if (m_playerObject)
+        {
+            m_playerObject.AddComponent<ControllerPad>();
+            Destroy(m_playerObject.GetComponent<ControllerKeyboard>());
+        }
+    }
 
     public void SpawnPlayer()
     {
@@ -51,6 +74,10 @@ public class GameMng : MonoBehaviour {
         {
             m_playerObject = Instantiate<GameObject>(m_playerPrefab);
             m_player = Player.Instance;
+            if (m_keyboardInput)
+                m_playerObject.AddComponent<ControllerKeyboard>();
+            else
+                m_playerObject.AddComponent<ControllerPad>();
         }
         else
         {
