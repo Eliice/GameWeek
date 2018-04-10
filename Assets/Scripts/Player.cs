@@ -75,6 +75,7 @@ public class Player : MonoBehaviour
 
     public void MoveHorizontal(bool isGoingRight)
     {
+        m_animator.SetBool("Move", true);
         if (!m_animator.GetBool("Dash"))
         {
             if (!isGoingRight)
@@ -88,6 +89,7 @@ public class Player : MonoBehaviour
 
     public void Stand()
     {
+        m_animator.SetBool("Move", false);
         m_direction.x = 0;
     }
 
