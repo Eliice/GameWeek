@@ -145,3 +145,4 @@ MonoBehaviour:
   m_forceIncrement: 8
   m_forceLimit: 10
   dashFactor: 1
+  dashTime: 1

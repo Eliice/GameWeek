@@ -59,7 +59,7 @@ public class Player : MonoBehaviour
     Vector3 dashDirection = new Vector3();
     private float m_force = 0;
     [SerializeField]
-    private float dashTime = 5f;
+    private float dashTime = 1f;
 
 
     private Timer dashTimer = new Timer();
@@ -126,7 +126,9 @@ public class Player : MonoBehaviour
 
         dashTimer.updateTimer();
         if (dashTimer.TimerComplete())
+        {
             m_animator.SetBool("Dash", false);
+        }
     }
 
     public void AddForce()
@@ -162,7 +164,6 @@ public class Player : MonoBehaviour
                 else
                     m_direction.x = 0;
             }
-
             transform.Translate(m_direction * Time.deltaTime);
     }
 
