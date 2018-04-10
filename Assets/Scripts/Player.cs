@@ -136,7 +136,7 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag == "Floor")
+        if(collision.gameObject.tag == "Floor" && m_animator.GetBool("Jump"))
         {
             m_animator.SetBool("Jump", false);
         }
@@ -145,7 +145,8 @@ public class Player : MonoBehaviour
         {
             m_direction.x = 0;
         }
-
+        if (m_animator.GetBool("Dash"))
+            m_animator.SetBool("Dash",false);
         /*foreach (BoxCollider col in colliders)
         {
             if (col.name == "LeftCol" || col.name == "RightCol")
@@ -157,24 +158,24 @@ public class Player : MonoBehaviour
 
     public void Dash()
     {
+        m_animator.SetBool("Dash", true);
         float sign = m_direction.x < 0 ? -1 : 1; // if the direction.x = 0, will go right
         dashDirection.x = sign * m_force * dashFactor;
+        m_rigidBody.AddForce(dashDirection, ForceMode.Impulse);
         ResetForce();
-        StartCoroutine(DashCoroutine(dashTime, transform.position + dashDirection));
+        StartCoroutine(DashCoroutine(dashTime));
     }
 
-    IEnumerator DashCoroutine(float time, Vector3 dir)
+    IEnumerator DashCoroutine(float time)
     {
         float currentTime = 0;
-        float normalizedValue;
 
         while (currentTime < time)
         {
-            currentTime += Time.deltaTime;
-            normalizedValue = currentTime / time;
-            transform.position = Vector3.Lerp(transform.position, dir, normalizedValue);
             yield return new WaitForEndOfFrame();
+            currentTime += Time.deltaTime;
         }
         m_animator.SetBool("Dash", false);
     }
+
 }
