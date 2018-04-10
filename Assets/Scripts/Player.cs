@@ -15,6 +15,8 @@ public class Player : MonoBehaviour {
     private Slider m_strenghtBar = null;
     [SerializeField]
     float gravity = 9.81f;
+    [SerializeField]
+    float dashFactor = 1f;
 
 
     public bool CanJump
@@ -123,7 +125,7 @@ public class Player : MonoBehaviour {
     public void Dash()
     {
         Debug.Log("Dash power : " + m_force);
-        Vector3 dashDirection = new Vector3(m_force, 0, 0);
+        Vector3 dashDirection = new Vector3(m_force * dashFactor, 0, 0);
         ResetForce();
 
         transform.Translate(dashDirection * Time.deltaTime);
