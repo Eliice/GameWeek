@@ -41,7 +41,7 @@ public class ControllerKeyboard : Controller
 
     override protected void checkJump()
     {
-        if (!m_player.CharacterAnimator.GetBool("Jump") && Input.GetKey(KeyCode.Space))
+        if (!m_player.CharacterAnimator.GetBool("Jump") && !m_player.CharacterAnimator.GetBool("Dash") && Input.GetKey(KeyCode.Space))
         {
             m_player.AddForce();
         }
@@ -54,7 +54,7 @@ public class ControllerKeyboard : Controller
 
     override protected void checkDash()
     {
-        if (!m_player.CharacterAnimator.GetBool("Dash") && !m_player.CharacterAnimator.GetBool("Jump") && Input.GetKey(KeyCode.LeftShift))
+        if (!m_player.CharacterAnimator.GetBool("Dash")  && Input.GetKey(KeyCode.LeftShift))
         {
             m_player.AddForce();
         }
