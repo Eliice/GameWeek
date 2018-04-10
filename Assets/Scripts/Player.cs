@@ -60,6 +60,7 @@ public class Player : MonoBehaviour
         Debug.Log(m_force);
         if (m_force < m_forceLimit)
         {
+            m_strenghtBar.value += (m_forceIncrement / m_forceLimit * 100) * Time.deltaTime;
             m_force += m_forceIncrement * Time.deltaTime;
         }
     }
