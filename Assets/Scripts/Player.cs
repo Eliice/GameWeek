@@ -24,20 +24,7 @@ public class Player : MonoBehaviour
 
     private Animator m_animator = null;
     public Animator CharacterAnimator { get { return m_animator; } }
-    public bool CanJump
-    {
-        get { return canJump; }
-        set { canJump = value; }
-    }
-
-    public bool CanDash
-    {
-        get { return canDash; }
-        set { canDash = value; }
-    }
-
-    bool canJump = true;
-    bool canDash = true;
+    
 
     private Vector3 m_direction = new Vector3();
     private float m_force = 0;
@@ -88,7 +75,7 @@ public class Player : MonoBehaviour
 
     public void MoveHorizontal(bool isGoingRight)
     {
-        if (canDash)
+        if (!m_animator.GetBool("Dash"))
         {
             if (!isGoingRight)
                 m_direction.x = -m_speed;
@@ -112,7 +99,7 @@ public class Player : MonoBehaviour
 
     IEnumerator JumpCoroutine()
     {
-        canJump = false;
+        m_animator.SetBool("Jump",true);
         float force = m_force;
         ResetForce();
         Vector3 initalPos = transform.position;
@@ -131,7 +118,7 @@ public class Player : MonoBehaviour
             pos.y = initalPos.y;
             transform.position = pos;
         }
-        canJump = true;
+        m_animator.SetBool("Jump", false);
     }
 
     public void Dash()
@@ -143,7 +130,7 @@ public class Player : MonoBehaviour
 
     IEnumerator DashCoroutine(float time, Vector3 begin, Vector3 end)
     {
-        canDash = false;
+        m_animator.SetBool("Dash", true);
         float currentTime = 0;
         float normalizedValue;
 
@@ -154,6 +141,6 @@ public class Player : MonoBehaviour
             transform.position = Vector3.Lerp(begin, end, normalizedValue);
             yield return new WaitForEndOfFrame();
         }
-        canDash = true;
+        m_animator.SetBool("Dash", false);
     }
 }

@@ -49,7 +49,7 @@ public class ControllerPad : Controller {
 
     override protected void checkJump()
     {
-        if (m_player.CanJump && (Input.GetButton(A_Button) || Input.GetButton(B_Button)))
+        if (!m_player.CharacterAnimator.GetBool("Jump") && (Input.GetButton(A_Button) || Input.GetButton(B_Button)))
         {
             m_player.AddForce();
         }
@@ -62,7 +62,7 @@ public class ControllerPad : Controller {
 
     override protected void checkDash()
     {
-        if (m_player.CanDash && (Input.GetButton(X_Button) || Input.GetButton(Y_Button)))
+        if (!m_player.CharacterAnimator.GetBool("Dash") && (Input.GetButton(X_Button) || Input.GetButton(Y_Button)))
         {
             m_player.AddForce();
         }
