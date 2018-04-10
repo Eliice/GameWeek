@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UIControler : MonoBehaviour {
 
@@ -32,10 +30,17 @@ public class UIControler : MonoBehaviour {
     {
         m_startingScreen.SetActive(false);
         m_menuScreen.SetActive(true);
+        isStartingScreen = false;
     }
 
     public void Exit()
     {
         Application.Quit();
+    }
+
+
+    public void LoadPlayScene()
+    {
+        SceneManager.LoadScene(1,LoadSceneMode.Single);
     }
 }

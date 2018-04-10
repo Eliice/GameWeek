@@ -42,6 +42,7 @@ public class GameMng : MonoBehaviour {
 
     public void SwitchInput()
     {
+        Debug.Log("switch controler done");
         if (m_keyboardInput)
             SwithcToPad();
         else
