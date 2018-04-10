@@ -20,10 +20,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4994555721025114}
   - component: {fileID: 212877565799373548}
-  - component: {fileID: 61768111392647372}
+  - component: {fileID: 65488794392604090}
   m_Layer: 0
   m_Name: Large_Plateform
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -34,38 +34,25 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1508901751400330}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.24, y: -2.58, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 20.52, y: 0.36, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &61768111392647372
-BoxCollider2D:
+--- !u!65 &65488794392604090
+BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1508901751400330}
-  m_Enabled: 1
-  m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.16, y: 2.16}
-    newSize: {x: 2.16, y: 2.06}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
+  m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.16, y: 2.06}
-  m_EdgeRadius: 0
+  m_Size: {x: 2.16, y: 2.16, z: 0.2}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!212 &212877565799373548
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -100,12 +87,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: e4ad99b7f43f5ea429bb5ad99cb278af, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 96b8d277743a9f643831710a4b623521, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 2.16, y: 2.06}
+  m_Size: {x: 0.72, y: 0.72}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

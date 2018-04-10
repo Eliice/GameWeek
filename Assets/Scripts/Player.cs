@@ -23,6 +23,7 @@ public class Player : MonoBehaviour
     private Ray rayLeft; 
     private Ray rayRight;
     private bool canGoLeft = true;
+    private bool canGoRight = true;
 
     private Vector3 m_direction = new Vector3();
     Vector3 dashDirection = new Vector3();
@@ -58,33 +59,48 @@ public class Player : MonoBehaviour
         m_animator = gameObject.GetComponent<Animator>();
         m_rigidBody = gameObject.GetComponent<Rigidbody>();
         m_strenghtBar = GameObject.FindGameObjectWithTag("ForceBar").GetComponent<Slider>();
-        //colliders = gameObject.GetComponentsInChildren<BoxCollider>();
     }
 
     private void Update()
     {
-        rayLeft = new Ray(new Vector3(transform.position.x - transform.localScale.x / 2, transform.position.y + transform.localScale.y / 2, 0), -transform.up);
-        Debug.DrawLine(rayLeft.origin, rayLeft.GetPoint(transform.localScale.y), Color.red);
+        //rayLeft = new Ray(new Vector3(transform.position.x - transform.localScale.x / 2, transform.position.y + transform.localScale.y / 2, 0), -transform.up);
+        //Debug.DrawLine(rayLeft.origin, rayLeft.GetPoint(transform.localScale.y), Color.red);
+        rayLeft = new Ray(new Vector3(transform.position.x, transform.position.y, 0), -transform.right);
+        rayRight = new Ray(new Vector3(transform.position.x, transform.position.y, 0), transform.right);
+        Debug.DrawLine(rayLeft.origin, rayLeft.GetPoint(1f), Color.red);
+        Debug.DrawLine(rayRight.origin, rayRight.GetPoint(1f), Color.blue);
 
         RaycastHit hitInfoLeft;
+        RaycastHit hitInfoRight;
 
-        if (Physics.Raycast(rayLeft, out hitInfoLeft, transform.localScale.y))
+        if (Physics.Raycast(rayLeft, out hitInfoLeft, 1f))
         {
-            Debug.Log(hitInfoLeft.transform.name);
             if (hitInfoLeft.transform.tag == "Wall")
             {
                 canGoLeft = false;
-                Debug.Log("AAAAAAAAAAAAAAAAAAAA");
-                m_direction.x = 0;
+                //m_direction.x = 0;
             }
-            else
-                canGoLeft = true;
         }
+        else
+            canGoLeft = true;
+        Debug.Log("Left : " + canGoLeft);
+
+        if (Physics.Raycast(rayRight, out hitInfoRight, 1f))
+        {
+            if (hitInfoRight.transform.tag == "Wall")
+            {
+                canGoRight = false;
+                //m_direction.x = 0;
+            }
+        }
+        else
+            canGoRight = true;
+        Debug.Log("Right : " + canGoRight);
     }
 
     public void AddForce()
     {
-        Debug.Log(m_force);
+       // Debug.Log(m_force);
         if (m_force < m_forceLimit)
         {
             m_strenghtBar.value += (m_forceIncrement / m_forceLimit * 100) * Time.deltaTime;
@@ -112,7 +128,12 @@ public class Player : MonoBehaviour
                     m_direction.x = 0;
             }
             else
-                m_direction.x = m_speed;
+            {
+                if (canGoRight)
+                    m_direction.x = m_speed;
+                else
+                    m_direction.x = 0;
+            }
 
             transform.Translate(m_direction * Time.deltaTime);
         }
