@@ -2,6 +2,36 @@
 using UnityEngine.UI;
 using System.Collections;
 
+
+
+public class Timer
+{
+    float m_targetTime = 2;
+    float m_currentTime = 0;
+    
+    public void InitTimer(float targetTime)
+    {
+        m_targetTime = targetTime;
+    }
+
+    public  void updateTimer()
+    {
+        m_currentTime += Time.deltaTime;
+    }
+
+    public bool TimerComplete()
+    {
+        return m_currentTime >= m_targetTime;
+    }
+
+    public void ResetTimer()
+    {
+        m_currentTime = 0;
+    }
+}
+
+
+
 public class Player : MonoBehaviour
 {
     [SerializeField]
@@ -31,6 +61,9 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float dashTime = 5f;
 
+
+    private Timer dashTimer = new Timer();
+
     private static Player instance;
     public static Player Instance
     {
@@ -58,16 +91,15 @@ public class Player : MonoBehaviour
         m_animator = gameObject.GetComponent<Animator>();
         m_rigidBody = gameObject.GetComponent<Rigidbody>();
         m_strenghtBar = GameObject.FindGameObjectWithTag("ForceBar").GetComponent<Slider>();
+
+
+        dashTimer.InitTimer(dashTime);
     }
 
     private void Update()
     {
-        //rayLeft = new Ray(new Vector3(transform.position.x - transform.localScale.x / 2, transform.position.y + transform.localScale.y / 2, 0), -transform.up);
-        //Debug.DrawLine(rayLeft.origin, rayLeft.GetPoint(transform.localScale.y), Color.red);
         rayLeft = new Ray(new Vector3(transform.position.x, transform.position.y, 0), -transform.right);
         rayRight = new Ray(new Vector3(transform.position.x, transform.position.y, 0), transform.right);
-        //Debug.DrawLine(rayLeft.origin, rayLeft.GetPoint(1f), Color.red);
-        //Debug.DrawLine(rayRight.origin, rayRight.GetPoint(1f), Color.blue);
 
         RaycastHit hitInfoLeft;
         RaycastHit hitInfoRight;
@@ -77,29 +109,28 @@ public class Player : MonoBehaviour
             if (hitInfoLeft.transform.tag == "Wall")
             {
                 canGoLeft = false;
-                //m_direction.x = 0;
             }
         }
         else
             canGoLeft = true;
-        //Debug.Log("Left : " + canGoLeft);
 
         if (Physics.Raycast(rayRight, out hitInfoRight, 1f))
         {
             if (hitInfoRight.transform.tag == "Wall")
             {
                 canGoRight = false;
-                //m_direction.x = 0;
             }
         }
         else
             canGoRight = true;
-        //Debug.Log("Right : " + canGoRight);
+
+        dashTimer.updateTimer();
+        if (dashTimer.TimerComplete())
+            m_animator.SetBool("Dash", false);
     }
 
     public void AddForce()
     {
-       // Debug.Log(m_force);
         if (m_force < m_forceLimit)
         {
             m_strenghtBar.value += (m_forceIncrement / m_forceLimit * 100) * Time.deltaTime;
@@ -117,8 +148,6 @@ public class Player : MonoBehaviour
     public void MoveHorizontal(bool isGoingRight)
     {
         m_animator.SetBool("Move", true);
-        if (!m_animator.GetBool("Dash"))
-        {
             if (!isGoingRight)
             {
                 if (canGoLeft)
@@ -135,9 +164,6 @@ public class Player : MonoBehaviour
             }
 
             transform.Translate(m_direction * Time.deltaTime);
-        }
-        /*if(m_rigidBody.velocity.magnitude < m_speed)
-            m_rigidBody.AddRelativeForce(m_direction);*/
     }
 
     public void Stand()
@@ -167,35 +193,16 @@ public class Player : MonoBehaviour
         }
         if (m_animator.GetBool("Dash"))
             m_animator.SetBool("Dash", false);
-        /*foreach (BoxCollider col in colliders)
-        {
-            if (col.name == "LeftCol" || col.name == "RightCol")
-            {
-                if (collision.gameObject)
-            }
-        }*/
     }
 
     public void Dash()
     {
         m_animator.SetBool("Dash", true);
+        dashTimer.ResetTimer();
         float sign = m_direction.x < 0 ? -1 : 1; // if the direction.x = 0, will go right
         dashDirection.x = sign * m_force * dashFactor;
         m_rigidBody.AddForce(dashDirection, ForceMode.Impulse);
         ResetForce();
-        StartCoroutine(DashCoroutine(dashTime));
-    }
-
-    IEnumerator DashCoroutine(float time)
-    {
-        float currentTime = 0;
-
-        while (currentTime < time)
-        {
-            yield return new WaitForEndOfFrame();
-            currentTime += Time.deltaTime;
-        }
-        m_animator.SetBool("Dash", false);
     }
 
 }
