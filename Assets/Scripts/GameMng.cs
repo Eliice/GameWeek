@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class GameMng : MonoBehaviour {
 
-    private GameMng m_instance;
-    public GameMng Instance { get { return m_instance; } }
+    private static GameMng m_instance;
+    public static GameMng Instance { get { return m_instance; } }
 
     private Player m_player = null;
     private GameObject m_playerObject;

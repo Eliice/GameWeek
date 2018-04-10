@@ -41,6 +41,7 @@ public class UIControler : MonoBehaviour {
 
     public void LoadPlayScene()
     {
-        SceneManager.LoadScene(1,LoadSceneMode.Single);
+        SceneManager.LoadScene(1);
+        GameMng.Instance.SpawnPlayer();
     }
 }
