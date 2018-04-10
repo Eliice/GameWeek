@@ -70,23 +70,26 @@ public class Player : MonoBehaviour
         m_force += m_forceIncrement * Time.deltaTime;
         if (m_force >= m_forceLimit)
             m_force = m_forceLimit;
-        m_strenghtBar.value = (m_force / m_forceLimit) * 100;
     }
 
     public void ResetForce()
     {
         m_force = 0f;
-        m_strenghtBar.value = 0;
+        if (m_strenghtBar != null)
+            m_strenghtBar.value = 0;
     }
 
     public void MoveHorizontal(bool isGoingRight)
     {
-        if (!isGoingRight)
-            m_direction.x = -m_speed;
-        else
-            m_direction.x = m_speed;
+        if (canDash)
+        {
+            if (!isGoingRight)
+                m_direction.x = -m_speed;
+            else
+                m_direction.x = m_speed;
 
-        transform.Translate(m_direction * Time.deltaTime);
+            transform.Translate(m_direction * Time.deltaTime);
+        }
     }
 
     public void Stand()
@@ -101,11 +104,12 @@ public class Player : MonoBehaviour
 
     IEnumerator JumpCoroutine()
     {
+        canJump = false;
         float force = m_force;
         ResetForce();
         Vector3 initalPos = transform.position;
         Vector3 pos;
-        do
+        do 
         {
             pos = gameObject.transform.position;
             pos.y += force * Time.deltaTime;
@@ -126,11 +130,12 @@ public class Player : MonoBehaviour
     {
         Vector3 dashDirection = new Vector3(m_force * dashFactor, 0, 0);
         ResetForce();
-        StartCoroutine(DashCoroutine(0.35f, new Vector3(transform.position.x, 0, 0), new Vector3(transform.position.x + dashDirection.x, 0, 0)));
+        StartCoroutine(DashCoroutine(0.35f, new Vector3(transform.position.x, transform.position.y, 0), new Vector3(transform.position.x + dashDirection.x, transform.position.y, 0)));
     }
 
     IEnumerator DashCoroutine(float time, Vector3 begin, Vector3 end)
     {
+        canDash = false;
         float currentTime = 0;
         float normalizedValue;
 
@@ -142,5 +147,6 @@ public class Player : MonoBehaviour
             transform.position = Vector3.Lerp(begin, end, normalizedValue);
             yield return null;
         }
+        canDash = true;
     }
 }
