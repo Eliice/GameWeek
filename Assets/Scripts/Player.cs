@@ -6,6 +6,7 @@ using System;
 public class Player : MonoBehaviour
 {
 
+
     [SerializeField]
     private float m_speed = 10f;
     [SerializeField]
@@ -19,6 +20,10 @@ public class Player : MonoBehaviour
     [SerializeField]
     float dashFactor = 1f;
 
+
+
+    private Animator m_animator = null;
+    public Animator CharacterAnimator { get { return m_animator; } }
     public bool CanJump
     {
         get { return canJump; }
@@ -63,10 +68,12 @@ public class Player : MonoBehaviour
         {
             instance = this;
         }
+        m_animator = gameObject.GetComponent<Animator>();
     }
 
     public void AddForce()
     {
+
         m_force += m_forceIncrement * Time.deltaTime;
         if (m_force >= m_forceLimit)
             m_force = m_forceLimit;
@@ -99,6 +106,7 @@ public class Player : MonoBehaviour
 
     public void Jump()
     {
+
         StartCoroutine(JumpCoroutine());
     }
 
@@ -143,9 +151,8 @@ public class Player : MonoBehaviour
         {
             currentTime += Time.deltaTime;
             normalizedValue = currentTime / time;
-            //float curvedValue = motionCurve.Evaluate(normalizedValue);
             transform.position = Vector3.Lerp(begin, end, normalizedValue);
-            yield return null;
+            yield return new WaitForEndOfFrame();
         }
         canDash = true;
     }
