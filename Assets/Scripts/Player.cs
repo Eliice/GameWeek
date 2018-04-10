@@ -5,8 +5,6 @@ using System;
 
 public class Player : MonoBehaviour
 {
-
-
     [SerializeField]
     private float m_speed = 10f;
     [SerializeField]
@@ -19,8 +17,6 @@ public class Player : MonoBehaviour
     float gravity = 9.81f;
     [SerializeField]
     float dashFactor = 1f;
-
-
 
     private Animator m_animator = null;
     public Animator CharacterAnimator { get { return m_animator; } }
@@ -97,7 +93,7 @@ public class Player : MonoBehaviour
 
     public void Jump()
     {
-
+        CameraShake.Shake(0.20f, 0.15f);
         StartCoroutine(JumpCoroutine());
     }
 
@@ -133,7 +129,7 @@ public class Player : MonoBehaviour
         m_animator.SetBool("Jump", false);
     }
 
-    IEnumerator DashCoroutine(float time, Vector3 end)
+    IEnumerator DashCoroutine(float time, Vector3 dir)
     {
         m_animator.SetBool("Dash", true);
         float currentTime = 0;
@@ -143,7 +139,7 @@ public class Player : MonoBehaviour
         {
             currentTime += Time.deltaTime;
             normalizedValue = currentTime / time;
-            transform.position = Vector3.Lerp(transform.position, end, normalizedValue);
+            transform.position = Vector3.Lerp(transform.position, dir, normalizedValue);
             yield return new WaitForEndOfFrame();
         }
         m_animator.SetBool("Dash", false);
