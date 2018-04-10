@@ -13,7 +13,6 @@ public class Player : MonoBehaviour
 
     private Slider m_strenghtBar = null;
 
-
     [SerializeField]
     float dashFactor = 1f;
 
@@ -21,11 +20,15 @@ public class Player : MonoBehaviour
     public Animator CharacterAnimator { get { return m_animator; } }
 
     private Rigidbody m_rigidBody = null;
+    private Ray rayLeft; 
+    private Ray rayRight;
+    private bool canGoLeft = true;
 
     private Vector3 m_direction = new Vector3();
     Vector3 dashDirection = new Vector3();
     private float m_force = 0;
-    private float dashTime = 0.35f;
+    [SerializeField]
+    private float dashTime = 5f;
 
     private static Player instance;
     public static Player Instance
@@ -55,6 +58,28 @@ public class Player : MonoBehaviour
         m_animator = gameObject.GetComponent<Animator>();
         m_rigidBody = gameObject.GetComponent<Rigidbody>();
         m_strenghtBar = GameObject.FindGameObjectWithTag("ForceBar").GetComponent<Slider>();
+        //colliders = gameObject.GetComponentsInChildren<BoxCollider>();
+    }
+
+    private void Update()
+    {
+        rayLeft = new Ray(new Vector3(transform.position.x - transform.localScale.x / 2, transform.position.y + transform.localScale.y / 2, 0), -transform.up);
+        Debug.DrawLine(rayLeft.origin, rayLeft.GetPoint(transform.localScale.y), Color.red);
+
+        RaycastHit hitInfoLeft;
+
+        if (Physics.Raycast(rayLeft, out hitInfoLeft, transform.localScale.y))
+        {
+            Debug.Log(hitInfoLeft.transform.name);
+            if (hitInfoLeft.transform.tag == "Wall")
+            {
+                canGoLeft = false;
+                Debug.Log("AAAAAAAAAAAAAAAAAAAA");
+                m_direction.x = 0;
+            }
+            else
+                canGoLeft = true;
+        }
     }
 
     public void AddForce()
@@ -80,12 +105,19 @@ public class Player : MonoBehaviour
         if (!m_animator.GetBool("Dash"))
         {
             if (!isGoingRight)
-                m_direction.x = -m_speed;
+            {
+                if (canGoLeft)
+                    m_direction.x = -m_speed;
+                else
+                    m_direction.x = 0;
+            }
             else
                 m_direction.x = m_speed;
 
             transform.Translate(m_direction * Time.deltaTime);
         }
+        /*if(m_rigidBody.velocity.magnitude < m_speed)
+            m_rigidBody.AddRelativeForce(m_direction);*/
     }
 
     public void Stand()
@@ -108,8 +140,20 @@ public class Player : MonoBehaviour
         {
             m_animator.SetBool("Jump", false);
         }
-    }
 
+        if (collision.gameObject.tag == "Wall")
+        {
+            m_direction.x = 0;
+        }
+
+        /*foreach (BoxCollider col in colliders)
+        {
+            if (col.name == "LeftCol" || col.name == "RightCol")
+            {
+                if (collision.gameObject)
+            }
+        }*/
+    }
 
     public void Dash()
     {
@@ -121,7 +165,6 @@ public class Player : MonoBehaviour
 
     IEnumerator DashCoroutine(float time, Vector3 dir)
     {
-        
         float currentTime = 0;
         float normalizedValue;
 

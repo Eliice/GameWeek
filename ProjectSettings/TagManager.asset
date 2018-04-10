@@ -7,6 +7,7 @@ TagManager:
   - Plateform
   - Floor
   - ForceBar
+  - Wall
   layers:
   - Default
   - TransparentFX

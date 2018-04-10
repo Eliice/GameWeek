@@ -143,6 +143,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_speed: 10
   m_forceIncrement: 8
-  m_forceLimit: 10000
-  gravity: 9.81
+  m_forceLimit: 10
   dashFactor: 1

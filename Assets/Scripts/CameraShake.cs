@@ -14,6 +14,11 @@ public class CameraShake : MonoBehaviour
         _instance = this;
     }
 
+    private void Update()
+    {
+        _originalPos.x += gameObject.GetComponent<Scrolling>().CameraSpeed;
+    }
+
     public static void Shake(float duration, float amount)
     {
         _instance.StopAllCoroutines();
