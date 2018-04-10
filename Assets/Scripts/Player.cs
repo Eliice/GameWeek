@@ -41,8 +41,6 @@ public class Player : MonoBehaviour {
         }
     }
 
-
-
     private void Awake()
     {
         instance = this;
@@ -56,12 +54,7 @@ public class Player : MonoBehaviour {
             m_strenghtBar.value = (m_force / m_forceLimit) * 100;
     }
 
-    void Update ()
-    {
-       
-    }
-
-
+    
     public void MoveHorizontal (bool isGoingRight)
     {
         if (!isGoingRight)
