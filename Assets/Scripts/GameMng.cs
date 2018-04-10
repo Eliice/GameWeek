@@ -1,0 +1,88 @@
+﻿using System;
+using UnityEngine;
+
+public class GameMng : MonoBehaviour {
+
+    private GameMng m_instance;
+    public GameMng Instance { get { return m_instance; } }
+
+    private Player m_player = null;
+    private GameObject m_playerObject;
+    
+    [SerializeField]
+    private GameObject m_playerPrefab = null;
+
+    private Vector3 m_respawn = new Vector3();
+
+
+    private bool m_keyboardInput = true;
+    public Vector3 Respawn
+    {
+        set
+        {
+            if (value.x > m_respawn.x)
+                m_respawn = value;
+        }
+    }
+
+
+    private void Awake()
+    {
+        if (m_instance)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            m_instance = this;
+        }
+        DontDestroyOnLoad(gameObject);
+    }
+
+
+    public void SwitchInput()
+    {
+        if (m_keyboardInput)
+            SwithcToPad();
+        else
+            SwitchToKeyboard();
+    }
+
+    private void SwitchToKeyboard()
+    {
+        m_keyboardInput = true;
+        if(m_playerObject)
+        {
+            m_playerObject.AddComponent<ControllerKeyboard>();
+            Destroy(m_playerObject.GetComponent<ControllerPad>());
+        }
+    }
+
+    private void SwithcToPad()
+    {
+        m_keyboardInput = false;
+        if (m_playerObject)
+        {
+            m_playerObject.AddComponent<ControllerPad>();
+            Destroy(m_playerObject.GetComponent<ControllerKeyboard>());
+        }
+    }
+
+    public void SpawnPlayer()
+    {
+        if(!m_player)
+        {
+            m_playerObject = Instantiate<GameObject>(m_playerPrefab);
+            m_player = Player.Instance;
+            if (m_keyboardInput)
+                m_playerObject.AddComponent<ControllerKeyboard>();
+            else
+                m_playerObject.AddComponent<ControllerPad>();
+        }
+        else
+        {
+            m_playerObject.transform.position = m_respawn;
+            Debug.LogAssertion("player respawn state unimplemented");
+        }
+    }
+}
