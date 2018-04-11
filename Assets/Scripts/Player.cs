@@ -67,6 +67,10 @@ public class Player : MonoBehaviour
     private AudioSource m_audioPlayer = null;
 
     private Rigidbody m_rigidBody = null;
+    Ray rayBottomForward;
+    Ray rayTopForward;
+
+    private bool canGoForward; 
 
     private bool noStamina = false;
 
@@ -116,7 +120,6 @@ public class Player : MonoBehaviour
         if(m_Stamina_Bar != null)
             m_Stamina_Bar.value = m_Stamina_Bar.maxValue;
 
-
         dashTimer.InitTimer(dashTime);
         m_force = m_minForce;
         m_renderer = GetComponent<SpriteRenderer>();
@@ -137,6 +140,37 @@ public class Player : MonoBehaviour
         }
 
         m_strenghtBar.transform.position = transform.position + strenghtBarOffset;
+        
+        //-------- ATTENTION c'est du sale
+        rayBottomForward = new Ray(new Vector3(transform.position.x, transform.position.y + transform.localScale.y * 1.5f, 0), transform.right);
+        rayTopForward = new Ray(new Vector3(transform.position.x, transform.position.y + transform.localScale.y * 28, 0), transform.right);
+
+        Debug.DrawLine(rayBottomForward.origin, rayBottomForward.GetPoint(0.70f), Color.blue);
+        Debug.DrawLine(rayTopForward.origin, rayTopForward.GetPoint(0.70f), Color.green);
+
+        RaycastHit hitInfoBottomForward;
+        RaycastHit hitInfoTopForward;
+
+        if (Physics.Raycast(rayBottomForward, out hitInfoBottomForward, 0.70f))
+        {
+            if (hitInfoBottomForward.transform.tag == "Wall")
+            {
+                canGoForward = false;
+                m_direction.x = 0;
+            }
+        }
+        else if (Physics.Raycast(rayTopForward, out hitInfoTopForward, 0.70f))
+        {
+            if (hitInfoTopForward.transform.tag == "Wall")
+            {
+                canGoForward = false;
+                m_direction.x = 0;
+            }
+        }
+        else
+            canGoForward = true;
+
+        Debug.Log("Forward : " + canGoForward);
     }
 
     public void AddForce()
@@ -171,16 +205,18 @@ public class Player : MonoBehaviour
                 m_previousDirection = E_Direction.LEFT;
                 transform.Rotate(0, 180, 0);
             }
-            m_direction.x = m_speed;
+            if (canGoForward)
+                m_direction.x = m_speed;
         }
-        else
+        else if (isGoingRight)
         {
-                if (m_previousDirection != E_Direction.RIGHT)
-                {
-                    m_previousDirection = E_Direction.RIGHT;
-                    transform.Rotate(0, 180, 0);
-                }
-            m_direction.x = m_speed;
+            if (m_previousDirection != E_Direction.RIGHT)
+            {
+                m_previousDirection = E_Direction.RIGHT;
+                transform.Rotate(0, 180, 0);
+            }
+            if (canGoForward)
+                m_direction.x = m_speed;
         }
         transform.Translate(m_direction * Time.deltaTime);
     }
@@ -224,7 +260,7 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag == "Floor" && m_animator.GetBool("Jump"))
+        if(collision.gameObject.tag == "Floor" || collision.gameObject.tag == "Wall" && m_animator.GetBool("Jump"))
         {
             CheckStamina();
             m_animator.SetBool("Jump", false);
@@ -242,8 +278,7 @@ public class Player : MonoBehaviour
     {
         m_animator.SetBool("Dash", true);
         dashTimer.ResetTimer();
-        float sign = m_previousDirection == E_Direction.LEFT ? -1 : 1; // if the direction.x = 0, will go right
-        Debug.Log(sign);
+        float sign = m_previousDirection == E_Direction.LEFT ? -1 : 1; 
         dashDirection.x = sign * m_force * dashFactor;
         m_rigidBody.AddForce(dashDirection, ForceMode.Impulse);
         SpendStamina(m_force);
