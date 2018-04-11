@@ -7,6 +7,7 @@ public class CheckPoint : MonoBehaviour {
         if(other.tag == "Player")
         {
             GameMng.Instance.Respawn = transform.position;
+            Player.Instance.ResetStamina();
         }
     }
 }
