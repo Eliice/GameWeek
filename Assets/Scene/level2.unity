@@ -1962,11 +1962,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4031527625430082, guid: 21526fc60063e8148a3c51780c58d573, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 38.68
+      value: 42.76
       objectReference: {fileID: 0}
     - target: {fileID: 4031527625430082, guid: 21526fc60063e8148a3c51780c58d573, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -0.05
+      value: -1.63
       objectReference: {fileID: 0}
     - target: {fileID: 4031527625430082, guid: 21526fc60063e8148a3c51780c58d573, type: 2}
       propertyPath: m_LocalPosition.z
@@ -2001,6 +2001,11 @@ Prefab:
         type: 2}
       propertyPath: m_CollisionDetection
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114069352697797280, guid: 21526fc60063e8148a3c51780c58d573,
+        type: 2}
+      propertyPath: dashTime
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 21526fc60063e8148a3c51780c58d573, type: 2}

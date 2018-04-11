@@ -6,7 +6,7 @@ public class Controller : MonoBehaviour
 {
     protected Player m_player;
 
-    protected void Update()
+    private void FixedUpdate()
     {
         Move();
         checkDash();

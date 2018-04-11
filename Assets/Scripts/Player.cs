@@ -98,32 +98,6 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        rayLeft = new Ray(new Vector3(transform.position.x, transform.position.y, 0), -transform.right);
-        rayRight = new Ray(new Vector3(transform.position.x, transform.position.y, 0), transform.right);
-
-        RaycastHit hitInfoLeft;
-        RaycastHit hitInfoRight;
-
-        if (Physics.Raycast(rayLeft, out hitInfoLeft, 1f))
-        {
-            if (hitInfoLeft.transform.tag == "Wall")
-            {
-                canGoLeft = false;
-            }
-        }
-        else
-            canGoLeft = true;
-
-        if (Physics.Raycast(rayRight, out hitInfoRight, 1f))
-        {
-            if (hitInfoRight.transform.tag == "Wall")
-            {
-                canGoRight = false;
-            }
-        }
-        else
-            canGoRight = true;
-
         dashTimer.updateTimer();
         if (dashTimer.TimerComplete())
         {
