@@ -135,31 +135,21 @@ public class Player : MonoBehaviour
         m_animator.SetBool("Move", true);
         if (!isGoingRight)
         {
-            if (canGoLeft)
+            if (m_previousDirection != E_Direction.LEFT)
             {
-                if (m_previousDirection != E_Direction.LEFT)
-                {
-                    m_previousDirection = E_Direction.LEFT;
-                    transform.Rotate(0, 180, 0);
-                }
-                m_direction.x = m_speed;
+                m_previousDirection = E_Direction.LEFT;
+                transform.Rotate(0, 180, 0);
             }
-            else
-                m_direction.x = 0;
+            m_direction.x = m_speed;
         }
         else
         {
-            if (canGoRight)
-            {
                 if (m_previousDirection != E_Direction.RIGHT)
                 {
                     m_previousDirection = E_Direction.RIGHT;
                     transform.Rotate(0, 180, 0);
                 }
-                m_direction.x = m_speed;
-            }
-            else
-                m_direction.x = 0;
+            m_direction.x = m_speed;
         }
         transform.Translate(m_direction * Time.deltaTime);
     }
