@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class UIControler : MonoBehaviour {
 
     private bool isStartingScreen = true;
+	private Transitions Transition;
 
     [SerializeField]
     private GameObject m_startingScreen = null;
@@ -30,11 +31,12 @@ public class UIControler : MonoBehaviour {
             return;
         if (Input.anyKey)
         {
-            SwitchScreen();
+			Transition = GameObject.Find("Canvas").GetComponent<Transitions>();
+			Transition.Animator.SetTrigger("SwitchScreen");
         }
     }
 
-    private void SwitchScreen()
+    public void SwitchScreen()
     {
         m_startingScreen.SetActive(false);
         m_menuScreen.SetActive(true);
