@@ -34,6 +34,14 @@ public class Timer
 
 public class Player : MonoBehaviour
 {
+    private enum E_Direction
+    {
+        LEFT,
+        RIGHT
+    };
+
+
+
     [SerializeField]
     private float m_speed = 10f;
     [SerializeField]
@@ -63,6 +71,9 @@ public class Player : MonoBehaviour
 
 
     private Timer dashTimer = new Timer();
+
+    private E_Direction m_previousDirection = E_Direction.RIGHT;
+
 
     private static Player instance;
     public static Player Instance
@@ -124,21 +135,35 @@ public class Player : MonoBehaviour
     public void MoveHorizontal(bool isGoingRight)
     {
         m_animator.SetBool("Move", true);
-            if (!isGoingRight)
+        if (!isGoingRight)
+        {
+            if (canGoLeft)
             {
-                if (canGoLeft)
-                    m_direction.x = -m_speed;
-                else
-                    m_direction.x = 0;
+                if (m_previousDirection != E_Direction.LEFT)
+                {
+                    m_previousDirection = E_Direction.LEFT;
+                    transform.Rotate(0, 180, 0);
+                }
+                m_direction.x = m_speed;
             }
             else
+                m_direction.x = 0;
+        }
+        else
+        {
+            if (canGoRight)
             {
-                if (canGoRight)
-                    m_direction.x = m_speed;
-                else
-                    m_direction.x = 0;
+                if (m_previousDirection != E_Direction.RIGHT)
+                {
+                    m_previousDirection = E_Direction.RIGHT;
+                    transform.Rotate(0, 180, 0);
+                }
+                m_direction.x = m_speed;
             }
-            transform.Translate(m_direction * Time.deltaTime);
+            else
+                m_direction.x = 0;
+        }
+        transform.Translate(m_direction * Time.deltaTime);
     }
 
     public void Stand()
