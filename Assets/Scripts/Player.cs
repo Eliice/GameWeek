@@ -31,7 +31,7 @@ public class Timer
 
 public class Player : MonoBehaviour
 {
-    private enum E_Direction
+    public enum E_Direction
     {
         LEFT,
         RIGHT
@@ -45,6 +45,9 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private float m_speed = 10f;
+    public float Speed { get { return m_speed; } }
+
+
     [SerializeField]
     private float m_forceIncrement = 1.5f;
     [SerializeField]
@@ -80,6 +83,7 @@ public class Player : MonoBehaviour
 
     private Timer dashTimer = new Timer();
     private E_Direction m_previousDirection = E_Direction.RIGHT;
+    public E_Direction Direction { get { return m_previousDirection; } }
 
     private static Player instance;
 
