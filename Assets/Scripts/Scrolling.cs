@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class Scrolling : MonoBehaviour {
 
@@ -9,7 +10,10 @@ public class Scrolling : MonoBehaviour {
     [SerializeField]
     private float m_cameraSpeed = 1.0f;
 
-    public float CameraSpeed { get { return m_cameraSpeed; } set { m_cameraSpeed = value; } }
+    [SerializeField]
+    private float lerpFactor = 1f;
+
+    public float CameraSpeed { get { return m_cameraSpeed; } set { StartCoroutine(LerpRoutine(value)); } }
 
 	void Update () {
         UpdateCam();
@@ -31,5 +35,17 @@ public class Scrolling : MonoBehaviour {
             /// Trigger GameOver & retry screen
         }
     }
+
+
+    private IEnumerator LerpRoutine(float newSpeed)
+    {
+        while (m_cameraSpeed != newSpeed)
+        {
+            m_cameraSpeed = Mathf.Lerp(m_cameraSpeed, newSpeed, lerpFactor * Time.deltaTime);
+            yield return new WaitForEndOfFrame();
+        }
+    }
+
+
 
 }
