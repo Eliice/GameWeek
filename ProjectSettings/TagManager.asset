@@ -8,6 +8,7 @@ TagManager:
   - Floor
   - ForceBar
   - Wall
+  - StaminaBar
   layers:
   - Default
   - TransparentFX

@@ -44,6 +44,8 @@ public class Player : MonoBehaviour
     private float m_forceLimit = 15f;
     [SerializeField]
     private float m_minForce = 1.5f;
+    [SerializeField]
+    private float spentStaminaFactor = 10;
 
     private Slider m_strenghtBar = null;
     private Slider m_Stamina_Bar = null;
@@ -96,8 +98,12 @@ public class Player : MonoBehaviour
         m_animator = gameObject.GetComponent<Animator>();
         m_rigidBody = gameObject.GetComponent<Rigidbody>();
         m_strenghtBar = GameObject.FindGameObjectWithTag("ForceBar").GetComponent<Slider>();
-        m_strenghtBar.gameObject.SetActive(false);
+        if (m_strenghtBar != null)
+            m_strenghtBar.gameObject.SetActive(false);
         strenghtBarOffset = new Vector3(0,transform.localScale.y * 3, 0);
+        m_Stamina_Bar = GameObject.FindGameObjectWithTag("StaminaBar").GetComponent<Slider>();
+        if(m_Stamina_Bar != null)
+            m_Stamina_Bar.value = m_Stamina_Bar.maxValue;
 
 
         dashTimer.InitTimer(dashTime);
@@ -171,7 +177,16 @@ public class Player : MonoBehaviour
     {
         m_animator.SetBool("Jump", true);
         m_rigidBody.AddForce(new Vector3(0, m_force, 0), ForceMode.Impulse);
+        SpendStamina(m_force);
         ResetForce();
+    }
+
+    void SpendStamina(float forceSpent)
+    {
+        if (m_Stamina_Bar != null)
+        {
+            m_Stamina_Bar.value -= forceSpent / spentStaminaFactor * m_Stamina_Bar.maxValue / m_forceLimit;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
