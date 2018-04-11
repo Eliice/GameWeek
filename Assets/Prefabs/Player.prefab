@@ -99,8 +99,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 632161528c19d484b95cdb2f9059cd09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_speed: 10
-  m_forceIncrement: 8
+  m_speed: 6
+  m_forceIncrement: 20
   m_forceLimit: 10
   dashFactor: 1
   dashTime: 1
