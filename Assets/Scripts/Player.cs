@@ -66,6 +66,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float dashTime = 1f;
 
+    private Vector3 forceBarPosOffset;
 
     private Timer dashTimer = new Timer();
 
@@ -99,6 +100,8 @@ public class Player : MonoBehaviour
         m_animator = gameObject.GetComponent<Animator>();
         m_rigidBody = gameObject.GetComponent<Rigidbody>();
         m_strenghtBar = GameObject.FindGameObjectWithTag("ForceBar").GetComponent<Slider>();
+        m_strenghtBar.gameObject.SetActive(false);
+        forceBarPosOffset = new Vector3(0,transform.localScale.y * 3, 0);
 
 
         dashTimer.InitTimer(dashTime);
@@ -112,10 +115,15 @@ public class Player : MonoBehaviour
         {
             m_animator.SetBool("Dash", false);
         }
+
+        m_strenghtBar.transform.position = transform.position + forceBarPosOffset;
     }
 
     public void AddForce()
     {
+        if (!m_strenghtBar.gameObject.activeSelf)
+            m_strenghtBar.gameObject.SetActive(true);
+
         if (m_force < m_forceLimit)
         {
             m_strenghtBar.value += (m_forceIncrement / m_forceLimit * 100) * Time.fixedDeltaTime;
@@ -125,6 +133,9 @@ public class Player : MonoBehaviour
 
     public void ResetForce()
     {
+        if (m_strenghtBar.gameObject.activeSelf)
+            m_strenghtBar.gameObject.SetActive(false);
+
         m_force = m_minForce;
         if (m_strenghtBar != null)
             m_strenghtBar.value = 0;
