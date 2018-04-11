@@ -77,14 +77,14 @@ public class ScrollingBackGround : MonoBehaviour {
 
                     break;
                 case Player.E_Direction.RIGHT:
-                    m_bgFirstLayer1.transform.Translate(firstLayerSpeed * -1 * Time.deltaTime, 0, 0);
-                    m_bgFirstLayer2.transform.Translate(firstLayerSpeed * -1 * Time.deltaTime, 0, 0);
-                    m_bgFirstLayer3.transform.Translate(firstLayerSpeed * -1 * Time.deltaTime, 0, 0);
+                    m_bgFirstLayer1.transform.Translate(firstLayerSpeed  * Time.deltaTime, 0, 0);
+                    m_bgFirstLayer2.transform.Translate(firstLayerSpeed * Time.deltaTime, 0, 0);
+                    m_bgFirstLayer3.transform.Translate(firstLayerSpeed * Time.deltaTime, 0, 0);
 
 
-                    m_bgSecondLayer1.transform.Translate(secondLayerSpeed * Time.deltaTime, 0, 0);
-                    m_bgSecondLayer2.transform.Translate(secondLayerSpeed * Time.deltaTime, 0, 0);
-                    m_bgSecondLayer3.transform.Translate(secondLayerSpeed * Time.deltaTime, 0, 0);
+                    m_bgSecondLayer1.transform.Translate(secondLayerSpeed * -1 * Time.deltaTime, 0, 0);
+                    m_bgSecondLayer2.transform.Translate(secondLayerSpeed * -1 * Time.deltaTime, 0, 0);
+                    m_bgSecondLayer3.transform.Translate(secondLayerSpeed * -1 * Time.deltaTime, 0, 0);
                     break;
             }
         }
@@ -132,12 +132,12 @@ public class ScrollingBackGround : MonoBehaviour {
         switch (m_player.Direction)
         {
             case Player.E_Direction.LEFT:
-                if (m_frontAnchor.position.x <= m_bgFirstLayer2.transform.position.x)
+                if (m_backAnchor.position.x >= m_bgFirstLayer2.transform.position.x)
                     return true;
                 else
                     return false;
             case Player.E_Direction.RIGHT:
-                if (m_backAnchor.position.x >= m_bgFirstLayer2.transform.position.x)
+                if (m_frontAnchor.position.x <= m_bgFirstLayer2.transform.position.x)
                     return true;
                 else
                     return false;
