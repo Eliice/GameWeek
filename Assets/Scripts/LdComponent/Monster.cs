@@ -11,8 +11,14 @@ public class Monster : MonoBehaviour {
 	}
 	
 	void Update () {
-        Vector3 pos = transform.position;
-        pos.y = m_target.position.y;
+        if(!m_target)
+            m_target = Player.Instance.transform;
+        else
+        {
+            Vector3 pos = transform.position;
+            pos.y = m_target.position.y;
+            transform.position = pos;
+        }
 	}
 
 
