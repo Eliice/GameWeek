@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ScrollingBackGround : MonoBehaviour {
 
@@ -57,6 +56,8 @@ public class ScrollingBackGround : MonoBehaviour {
 
     void Update ()
     {
+        if(!m_scrollingData)
+            m_scrollingData = Camera.main.GetComponent<Scrolling>();
         float scrollingCoef = m_scrollingData.CameraSpeed;
 
         m_bgFirstLayer1.transform.Translate(firstLayerSpeed  * Time.deltaTime * scrollingCoef, 0, 0);
