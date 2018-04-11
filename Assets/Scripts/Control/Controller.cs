@@ -9,6 +9,10 @@ public class Controller : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
+    }
+
+    private void Update()
+    {
         checkDash();
         checkJump();
     }
