@@ -87,6 +87,7 @@ public class GameMng : MonoBehaviour {
             else
                 m_playerObject.AddComponent<ControllerPad>();
             m_playerObject.transform.SetParent(spawnParent.transform);
+            m_playerObject.transform.position = spawnParent.transform.position;
             m_camera = Camera.main.gameObject;
         }
         else
