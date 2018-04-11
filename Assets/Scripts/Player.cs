@@ -68,6 +68,8 @@ public class Player : MonoBehaviour
 
     private Rigidbody m_rigidBody = null;
 
+    private bool noStamina = false;
+
     private Vector3 m_direction = new Vector3();
     Vector3 dashDirection = new Vector3();
     private float m_force ;
@@ -197,13 +199,29 @@ public class Player : MonoBehaviour
         if (m_Stamina_Bar != null)
         {
             m_Stamina_Bar.value -= forceSpent / spentStaminaFactor * m_Stamina_Bar.maxValue / m_forceLimit;
+
+            if (m_Stamina_Bar.value == m_Stamina_Bar.minValue)
+                noStamina = true;
         }
+    }
+
+    void CheckStamina ()
+    {
+        if (noStamina)
+            Debug.Log("Boom t'es MORT !");
+    }
+
+    public void ResetStamina ()
+    {
+        if (m_Stamina_Bar != null)
+            m_Stamina_Bar.value = m_Stamina_Bar.maxValue;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.tag == "Floor" && m_animator.GetBool("Jump"))
         {
+            CheckStamina();
             m_animator.SetBool("Jump", false);
         }
 
@@ -224,11 +242,6 @@ public class Player : MonoBehaviour
         m_rigidBody.AddForce(dashDirection, ForceMode.Impulse);
         ResetForce();
     }
-
-
-
-
-
 
     private void SoundCheck()
     {
