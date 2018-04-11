@@ -242,9 +242,11 @@ public class Player : MonoBehaviour
     {
         m_animator.SetBool("Dash", true);
         dashTimer.ResetTimer();
-        float sign = m_direction.x < 0 ? -1 : 1; // if the direction.x = 0, will go right
+        float sign = m_previousDirection == E_Direction.LEFT ? -1 : 1; // if the direction.x = 0, will go right
+        Debug.Log(sign);
         dashDirection.x = sign * m_force * dashFactor;
         m_rigidBody.AddForce(dashDirection, ForceMode.Impulse);
+        SpendStamina(m_force);
         ResetForce();
     }
 
