@@ -15,6 +15,9 @@ public class TriggerCameraSpeed : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
+        if(!m_CameraScrolling)
+            m_CameraScrolling = Camera.main.GetComponent<Scrolling>();
+
         if (other.tag == "Player")
             m_CameraScrolling.CameraSpeed = m_newCameraSpeed;
     }
