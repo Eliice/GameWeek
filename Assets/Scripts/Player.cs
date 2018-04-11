@@ -123,6 +123,11 @@ public class Player : MonoBehaviour
         m_audioPlayer = GetComponent<AudioSource>();
     }
 
+    private void Start()
+    {
+        m_Stamina_Bar.transform.Rotate(0, -90, 0);
+    }
+
     private void Update()
     {
         dashTimer.updateTimer();

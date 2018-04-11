@@ -10321,6 +10321,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43288167be5a8ee40a22e9bea4605002, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_delayBeforSpawn: 2.9
 --- !u!1001 &737179192
 Prefab:
   m_ObjectHideFlags: 0
@@ -13659,6 +13660,7 @@ GameObject:
   m_Component:
   - component: {fileID: 986371770}
   - component: {fileID: 986371771}
+  - component: {fileID: 986371772}
   m_Layer: 0
   m_Name: Decor_final_Plan_1 (2)
   m_TagString: Untagged
@@ -13723,6 +13725,18 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!114 &986371772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 986371769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae3758ee9f461a347b6713a920527a25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_speed: 1
 --- !u!1001 &987272367
 Prefab:
   m_ObjectHideFlags: 0
