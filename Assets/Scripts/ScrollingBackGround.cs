@@ -56,8 +56,10 @@ public class ScrollingBackGround : MonoBehaviour {
 
     void Update ()
     {
-        if(!m_scrollingData)
+        if (!m_scrollingData)
             m_scrollingData = Camera.main.GetComponent<Scrolling>();
+        else
+            return;
         float scrollingCoef = m_scrollingData.CameraSpeed;
 
         m_bgFirstLayer1.transform.Translate(firstLayerSpeed  * Time.deltaTime * scrollingCoef, 0, 0);

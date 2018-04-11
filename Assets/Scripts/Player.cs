@@ -96,6 +96,9 @@ public class Player : MonoBehaviour
     private RigidbodyConstraints m_dashConstraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ;
     private RigidbodyConstraints m_standardConstraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionZ;
 
+    private bool canMove = true;
+
+
     public static Player Instance
     {
         get
@@ -207,7 +210,7 @@ public class Player : MonoBehaviour
 
     public void MoveHorizontal(bool isGoingRight)
     {
-        if (m_animator.GetBool("Dash"))
+        if (m_animator.GetBool("Dash") && !canMove)
             return;
         m_animator.SetBool("Move", true);
         if (!isGoingRight)
@@ -286,11 +289,14 @@ public class Player : MonoBehaviour
         {
             m_animator.SetBool("Dash", false);
             m_rigidBody.constraints = m_standardConstraints;
+            canMove = true;
         }
     }
 
     public void Dash()
     {
+        if (m_animator.GetBool("Jump") || m_animator.GetCurrentAnimatorStateInfo(0).IsName("On Air"))
+            canMove = false;
         m_animator.SetBool("Dash", true);
         m_rigidBody.constraints = m_dashConstraints;
         dashTimer.ResetTimer();
