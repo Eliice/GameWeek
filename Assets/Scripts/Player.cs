@@ -207,6 +207,8 @@ public class Player : MonoBehaviour
 
     public void MoveHorizontal(bool isGoingRight)
     {
+        if (m_animator.GetBool("Dash"))
+            return;
         m_animator.SetBool("Move", true);
         if (!isGoingRight)
         {
