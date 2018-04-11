@@ -19,6 +19,9 @@ public class GameMng : MonoBehaviour {
     private GameObject spawnParent = null;
 
     private bool m_keyboardInput = true;
+
+
+    private GameObject m_camera = null;
     public Vector3 Respawn
     {
         set
@@ -84,11 +87,15 @@ public class GameMng : MonoBehaviour {
             else
                 m_playerObject.AddComponent<ControllerPad>();
             m_playerObject.transform.SetParent(spawnParent.transform);
+            m_camera = Camera.main.gameObject;
         }
         else
         {
             m_playerObject.transform.position = m_respawn;
-            Debug.LogAssertion("player respawn state unimplemented");
+            Vector3 pos = m_camera.transform.position;
+            pos.x = m_respawn.x;
+            m_camera.transform.position = pos;
+            Debug.Log("player respawn animation");
         }
     }
 }
