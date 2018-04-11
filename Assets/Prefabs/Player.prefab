@@ -99,9 +99,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 632161528c19d484b95cdb2f9059cd09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_frameName: []
+  m_audioData: []
   m_speed: 6
   m_forceIncrement: 20
   m_forceLimit: 10
+  m_minForce: 1.5
+  spentStaminaFactor: 10
   dashFactor: 1
   dashTime: 1
 --- !u!212 &212304327929197678
@@ -137,7 +141,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: 90
   m_Sprite: {fileID: 21300000, guid: 21c7cadcf7916a746ac9961895baddb5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
