@@ -36,8 +36,6 @@ public class Player : MonoBehaviour
         RIGHT
     };
 
-
-
     [SerializeField]
     private float m_speed = 10f;
     [SerializeField]
@@ -57,8 +55,6 @@ public class Player : MonoBehaviour
     public Animator CharacterAnimator { get { return m_animator; } }
 
     private Rigidbody m_rigidBody = null;
-    //private bool canGoLeft = true;
-    //private bool canGoRight = true;
 
     private Vector3 m_direction = new Vector3();
     Vector3 dashDirection = new Vector3();
@@ -66,14 +62,14 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float dashTime = 1f;
 
-    private Vector3 forceBarPosOffset;
+    private Vector3 strenghtBarOffset;
 
     private Timer dashTimer = new Timer();
 
     private E_Direction m_previousDirection = E_Direction.RIGHT;
 
-
     private static Player instance;
+
     public static Player Instance
     {
         get
@@ -101,7 +97,7 @@ public class Player : MonoBehaviour
         m_rigidBody = gameObject.GetComponent<Rigidbody>();
         m_strenghtBar = GameObject.FindGameObjectWithTag("ForceBar").GetComponent<Slider>();
         m_strenghtBar.gameObject.SetActive(false);
-        forceBarPosOffset = new Vector3(0,transform.localScale.y * 3, 0);
+        strenghtBarOffset = new Vector3(0,transform.localScale.y * 3, 0);
 
 
         dashTimer.InitTimer(dashTime);
@@ -116,12 +112,12 @@ public class Player : MonoBehaviour
             m_animator.SetBool("Dash", false);
         }
 
-        m_strenghtBar.transform.position = transform.position + forceBarPosOffset;
+        m_strenghtBar.transform.position = transform.position + strenghtBarOffset;
     }
 
     public void AddForce()
     {
-        if (!m_strenghtBar.gameObject.activeSelf)
+        if (m_strenghtBar != null && !m_strenghtBar.gameObject.activeSelf)
             m_strenghtBar.gameObject.SetActive(true);
 
         if (m_force < m_forceLimit)
@@ -133,7 +129,7 @@ public class Player : MonoBehaviour
 
     public void ResetForce()
     {
-        if (m_strenghtBar.gameObject.activeSelf)
+        if (m_strenghtBar != null && m_strenghtBar.gameObject.activeSelf)
             m_strenghtBar.gameObject.SetActive(false);
 
         m_force = m_minForce;
@@ -202,5 +198,4 @@ public class Player : MonoBehaviour
         m_rigidBody.AddForce(dashDirection, ForceMode.Impulse);
         ResetForce();
     }
-
 }
