@@ -2978,9 +2978,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae3758ee9f461a347b6713a920527a25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  firstLayerSpeed: 1
+  secondLayerSpeed: 1
   m_bgFirstLayer1: {fileID: 986371769}
   m_bgFirstLayer2: {fileID: 770050059}
   m_bgFirstLayer3: {fileID: 1445377421}
+  m_bgSecondLayer1: {fileID: 635430688}
+  m_bgSecondLayer2: {fileID: 882604997}
+  m_bgSecondLayer3: {fileID: 767253478}
   m_frontAnchor: {fileID: 432110943}
   m_backAnchor: {fileID: 2119374302}
 --- !u!1001 &221507479
@@ -3272,7 +3277,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &241034471
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -7973,7 +7978,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!95 &573110534
 Animator:
   serializedVersion: 3
