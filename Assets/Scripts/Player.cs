@@ -91,6 +91,11 @@ public class Player : MonoBehaviour
 
     private static Player instance;
 
+
+
+    private RigidbodyConstraints m_dashConstraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ;
+    private RigidbodyConstraints m_standardConstraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionZ;
+
     public static Player Instance
     {
         get
@@ -141,6 +146,7 @@ public class Player : MonoBehaviour
         if (dashTimer.TimerComplete())
         {
             m_animator.SetBool("Dash", false);
+            m_rigidBody.constraints = m_standardConstraints;
         }
 
         m_strenghtBar.transform.position = transform.position + strenghtBarOffset;
@@ -275,12 +281,16 @@ public class Player : MonoBehaviour
             m_direction.x = 0;
         }
         if (m_animator.GetBool("Dash"))
+        {
             m_animator.SetBool("Dash", false);
+            m_rigidBody.constraints = m_standardConstraints;
+        }
     }
 
     public void Dash()
     {
         m_animator.SetBool("Dash", true);
+        m_rigidBody.constraints = m_dashConstraints;
         dashTimer.ResetTimer();
         float sign = m_previousDirection == E_Direction.LEFT ? -1 : 1; 
         dashDirection.x = sign * m_force * dashFactor;
