@@ -41,8 +41,6 @@ public class ScrollingBackGround : MonoBehaviour {
 
     private void Start()
     {
-        m_scrollingData = Camera.main.GetComponent<Scrolling>();
-
         initalPosBgFirstLayeur1 = m_bgFirstLayer1.transform.position;
         initalPosBgFirstLayeur2 = m_bgFirstLayer2.transform.position;
         initalPosBgFirstLayeur3 = m_bgFirstLayer3.transform.position;
