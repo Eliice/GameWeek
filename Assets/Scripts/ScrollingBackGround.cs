@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class ScrollingBackGround : MonoBehaviour {
 
@@ -6,10 +7,13 @@ public class ScrollingBackGround : MonoBehaviour {
 
     [SerializeField]
     private GameObject m_bgFirstLayer1 = null;
+    private Vector3 initalPosBgFirstLayeur1;
     [SerializeField]
     private GameObject m_bgFirstLayer2 = null;
+    private Vector3 initalPosBgFirstLayeur2;
     [SerializeField]
     private GameObject m_bgFirstLayer3 = null;
+    private Vector3 initalPosBgFirstLayeur3;
 
 
 
@@ -21,9 +25,12 @@ public class ScrollingBackGround : MonoBehaviour {
     private Player m_player;
 
 
-    private void start()
+    private void Start()
     {
         m_player = Player.Instance;
+        initalPosBgFirstLayeur1 = m_bgFirstLayer1.transform.position;
+        initalPosBgFirstLayeur2 = m_bgFirstLayer2.transform.position;
+        initalPosBgFirstLayeur3 = m_bgFirstLayer3.transform.position;
     }
 
 
@@ -49,10 +56,15 @@ public class ScrollingBackGround : MonoBehaviour {
             }
         }
         if (checkPos())
-            Debug.Log("replace needed !");
+            Replace();
 	}
 
-
+    private void Replace()
+    {
+        m_bgFirstLayer1.transform.position = initalPosBgFirstLayeur1;
+        m_bgFirstLayer2.transform.position = initalPosBgFirstLayeur2;
+        m_bgFirstLayer3.transform.position = initalPosBgFirstLayeur3;
+    }
 
     private bool checkPos()
     {
