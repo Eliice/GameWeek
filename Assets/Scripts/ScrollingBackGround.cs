@@ -41,13 +41,13 @@ public class ScrollingBackGround : MonoBehaviour {
 
     private void Start()
     {
-        initalPosBgFirstLayeur1 = m_bgFirstLayer1.transform.position;
-        initalPosBgFirstLayeur2 = m_bgFirstLayer2.transform.position;
-        initalPosBgFirstLayeur3 = m_bgFirstLayer3.transform.position;
+        initalPosBgFirstLayeur1 = m_bgFirstLayer1.transform.localPosition;
+        initalPosBgFirstLayeur2 = m_bgFirstLayer2.transform.localPosition;
+        initalPosBgFirstLayeur3 = m_bgFirstLayer3.transform.localPosition;
 
-        initialPosBgSecondLayeur1 = m_bgSecondLayer1.transform.position;
-        initialPosBgSecondLayeur2 = m_bgSecondLayer2.transform.position;
-        initialPosBgSecondLayeur3 = m_bgSecondLayer3.transform.position;
+        initialPosBgSecondLayeur1 = m_bgSecondLayer1.transform.localPosition;
+        initialPosBgSecondLayeur2 = m_bgSecondLayer2.transform.localPosition;
+        initialPosBgSecondLayeur3 = m_bgSecondLayer3.transform.localPosition;
     }
 
 
@@ -55,18 +55,34 @@ public class ScrollingBackGround : MonoBehaviour {
     void Update ()
     {
         if (!m_scrollingData)
-            m_scrollingData = Camera.main.GetComponent<Scrolling>();
-        else
-            return;
+            m_scrollingData = GetComponent<Scrolling>();
         float scrollingCoef = m_scrollingData.CameraSpeed;
 
-        m_bgFirstLayer1.transform.Translate(firstLayerSpeed  * Time.deltaTime * scrollingCoef, 0, 0);
-        m_bgFirstLayer2.transform.Translate(firstLayerSpeed * Time.deltaTime * scrollingCoef, 0, 0);
-        m_bgFirstLayer3.transform.Translate(firstLayerSpeed * Time.deltaTime * scrollingCoef, 0, 0);
-        
-        m_bgSecondLayer1.transform.Translate(secondLayerSpeed * Time.deltaTime * scrollingCoef, 0, 0);
-        m_bgSecondLayer2.transform.Translate(secondLayerSpeed * Time.deltaTime * scrollingCoef, 0, 0);
-        m_bgSecondLayer3.transform.Translate(secondLayerSpeed * Time.deltaTime * scrollingCoef, 0, 0);
+        Vector3 pos = m_bgFirstLayer1.transform.localPosition;
+        pos.x += firstLayerSpeed * Time.deltaTime * scrollingCoef;
+        m_bgFirstLayer1.transform.localPosition = pos;
+
+        pos = m_bgFirstLayer2.transform.localPosition;
+        pos.x += firstLayerSpeed * Time.deltaTime * scrollingCoef;
+        m_bgFirstLayer2.transform.localPosition = pos;
+
+        pos = m_bgFirstLayer3.transform.localPosition;
+        pos.x += firstLayerSpeed * Time.deltaTime * scrollingCoef;
+        m_bgFirstLayer3.transform.localPosition = pos;
+
+
+
+        pos = m_bgSecondLayer1.transform.localPosition;
+        pos.x += secondLayerSpeed * Time.deltaTime * scrollingCoef;
+        m_bgSecondLayer1.transform.localPosition = pos;
+
+        pos = m_bgSecondLayer2.transform.localPosition;
+        pos.x += secondLayerSpeed * Time.deltaTime * scrollingCoef;
+        m_bgSecondLayer2.transform.localPosition = pos;
+
+        pos = m_bgSecondLayer3.transform.localPosition;
+        pos.x += secondLayerSpeed * Time.deltaTime * scrollingCoef;
+        m_bgSecondLayer3.transform.localPosition = pos;
 
         if (checkPosLayerOne())
             ReplaceLayerOne();
@@ -76,14 +92,14 @@ public class ScrollingBackGround : MonoBehaviour {
 
     private void ReplaceLayerTwo()
     {
-        m_bgSecondLayer1.transform.position = initialPosBgSecondLayeur1;
-        m_bgSecondLayer2.transform.position = initialPosBgSecondLayeur2;
-        m_bgSecondLayer3.transform.position = initialPosBgSecondLayeur3;
+        m_bgSecondLayer1.transform.localPosition = initialPosBgSecondLayeur1;
+        m_bgSecondLayer2.transform.localPosition = initialPosBgSecondLayeur2;
+        m_bgSecondLayer3.transform.localPosition = initialPosBgSecondLayeur3;
     }
 
     private bool CheckPosLayerTwo()
     {
-        if (m_frontAnchor.position.x <= m_bgSecondLayer2.transform.position.x)
+        if (m_frontAnchor.localPosition.x <= m_bgSecondLayer2.transform.localPosition.x)
             return true;
         else
             return false;
@@ -91,14 +107,14 @@ public class ScrollingBackGround : MonoBehaviour {
 
     private void ReplaceLayerOne()
     {
-        m_bgFirstLayer1.transform.position = initalPosBgFirstLayeur1;
-        m_bgFirstLayer2.transform.position = initalPosBgFirstLayeur2;
-        m_bgFirstLayer3.transform.position = initalPosBgFirstLayeur3;
+        m_bgFirstLayer1.transform.localPosition = initalPosBgFirstLayeur1;
+        m_bgFirstLayer2.transform.localPosition = initalPosBgFirstLayeur2;
+        m_bgFirstLayer3.transform.localPosition = initalPosBgFirstLayeur3;
     }
 
     private bool checkPosLayerOne()
     {
-        if (m_frontAnchor.position.x <= m_bgFirstLayer2.transform.position.x)
+        if (m_frontAnchor.localPosition.x <= m_bgFirstLayer2.transform.localPosition.x)
             return true;
         else
             return false;
