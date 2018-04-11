@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Timer
 {
@@ -37,6 +38,10 @@ public class Player : MonoBehaviour
     };
 
 
+    [SerializeField]
+    private List<string> m_frameName;
+    [SerializeField]
+    private List<AudioClip> m_audioData;
 
     [SerializeField]
     private float m_speed = 10f;
@@ -56,6 +61,9 @@ public class Player : MonoBehaviour
     private Animator m_animator = null;
     public Animator CharacterAnimator { get { return m_animator; } }
 
+    private SpriteRenderer m_renderer = null;
+    private AudioSource m_audioPlayer = null;
+
     private Rigidbody m_rigidBody = null;
     //private bool canGoLeft = true;
     //private bool canGoRight = true;
@@ -68,7 +76,6 @@ public class Player : MonoBehaviour
 
 
     private Timer dashTimer = new Timer();
-
     private E_Direction m_previousDirection = E_Direction.RIGHT;
 
 
@@ -103,6 +110,8 @@ public class Player : MonoBehaviour
 
         dashTimer.InitTimer(dashTime);
         m_force = m_minForce;
+        m_renderer = GetComponent<SpriteRenderer>();
+        m_audioPlayer = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -192,4 +201,24 @@ public class Player : MonoBehaviour
         ResetForce();
     }
 
+
+
+
+
+
+    private void SoundCheck()
+    {
+        string name = m_renderer.sprite.name;
+        if (m_frameName.Contains(name))
+        {
+            for (int i = 0; i < m_frameName.Count; i++)
+            {
+                if (m_frameName[i] == name)
+                {
+                    m_audioPlayer.PlayOneShot(m_audioData[i]);
+                }
+            }
+
+        }
+    }
 }
