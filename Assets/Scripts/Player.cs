@@ -2,8 +2,6 @@
 using UnityEngine.UI;
 using System.Collections;
 
-
-
 public class Timer
 {
     float m_targetTime = 2;
@@ -30,8 +28,6 @@ public class Timer
     }
 }
 
-
-
 public class Player : MonoBehaviour
 {
     private enum E_Direction
@@ -45,11 +41,14 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float m_speed = 10f;
     [SerializeField]
-    private float m_forceIncrement = 2f;
+    private float m_forceIncrement = 1.5f;
     [SerializeField]
-    private float m_forceLimit = 10f;
+    private float m_forceLimit = 15f;
+    [SerializeField]
+    private float m_minForce = 1.5f;
 
     private Slider m_strenghtBar = null;
+    private Slider m_Stamina_Bar = null;
 
     [SerializeField]
     float dashFactor = 1f;
@@ -58,14 +57,12 @@ public class Player : MonoBehaviour
     public Animator CharacterAnimator { get { return m_animator; } }
 
     private Rigidbody m_rigidBody = null;
-    private Ray rayLeft; 
-    private Ray rayRight;
-    private bool canGoLeft = true;
-    private bool canGoRight = true;
+    //private bool canGoLeft = true;
+    //private bool canGoRight = true;
 
     private Vector3 m_direction = new Vector3();
     Vector3 dashDirection = new Vector3();
-    private float m_force = 0;
+    private float m_force ;
     [SerializeField]
     private float dashTime = 1f;
 
@@ -105,6 +102,7 @@ public class Player : MonoBehaviour
 
 
         dashTimer.InitTimer(dashTime);
+        m_force = m_minForce;
     }
 
     private void Update()
@@ -120,14 +118,14 @@ public class Player : MonoBehaviour
     {
         if (m_force < m_forceLimit)
         {
-            m_strenghtBar.value += (m_forceIncrement / m_forceLimit * 100) * Time.deltaTime;
-            m_force += m_forceIncrement * Time.deltaTime;
+            m_strenghtBar.value += (m_forceIncrement / m_forceLimit * 100) * Time.fixedDeltaTime;
+            m_force += m_forceIncrement * Time.fixedDeltaTime;
         }
     }
 
     public void ResetForce()
     {
-        m_force = 0f;
+        m_force = m_minForce;
         if (m_strenghtBar != null)
             m_strenghtBar.value = 0;
     }
@@ -178,7 +176,6 @@ public class Player : MonoBehaviour
         m_rigidBody.AddForce(new Vector3(0, m_force, 0), ForceMode.Impulse);
         ResetForce();
     }
-
 
     private void OnCollisionEnter(Collision collision)
     {

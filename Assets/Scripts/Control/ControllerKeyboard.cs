@@ -46,7 +46,7 @@ public class ControllerKeyboard : Controller
             m_player.AddForce();
         }
 
-        if (Input.GetKeyUp(KeyCode.Space))
+        if (!m_player.CharacterAnimator.GetBool("Jump") && !m_player.CharacterAnimator.GetBool("Dash") && Input.GetKeyUp(KeyCode.Space))
         {
             m_player.Jump();
         }
@@ -59,7 +59,7 @@ public class ControllerKeyboard : Controller
             m_player.AddForce();
         }
 
-        if (Input.GetKeyUp(KeyCode.LeftShift))
+        if (!m_player.CharacterAnimator.GetBool("Dash") && Input.GetKeyUp(KeyCode.LeftShift))
         {
             m_player.Dash();
         }
