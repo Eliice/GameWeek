@@ -265,7 +265,10 @@ public class Player : MonoBehaviour
     void CheckStamina ()
     {
         if (noStamina)
+        {
             GameMng.Instance.SpawnPlayer();
+            ResetStamina();
+        }
     }
 
     public void ResetStamina ()
