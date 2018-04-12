@@ -4,11 +4,14 @@ public class CheckPoint : MonoBehaviour {
 
     ParticleSystem Particles;
 
+    private AudioSource m_audiSource = null;
+
 
     private void Start()
     {
         Particles = this.GetComponent<ParticleSystem>();
         Particles.Stop();
+        m_audiSource = GetComponent<AudioSource>();
     }
 
 
@@ -26,5 +29,6 @@ public class CheckPoint : MonoBehaviour {
     void Activated ()
     {
         Particles.Play();
+        m_audiSource.Play();
     }
 }

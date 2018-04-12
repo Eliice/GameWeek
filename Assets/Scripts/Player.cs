@@ -100,6 +100,11 @@ public class Player : MonoBehaviour
 
 
 
+    [SerializeField]
+    private AudioClip JumpReception = null;
+    [SerializeField]
+    private List<AudioClip> FootSteps;
+
     private RigidbodyConstraints m_dashConstraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ;
     private RigidbodyConstraints m_standardConstraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionZ;
 
@@ -325,15 +330,12 @@ public class Player : MonoBehaviour
     private void SoundCheck()
     {
         string name = m_renderer.sprite.name;
-        Debug.Log("in checkSound");
         if (m_frameName.Contains(name))
         {
-            Debug.Log("name check");
             for (int i = 0; i < m_frameName.Count; i++)
             {
                 if (m_frameName[i] == name)
                 {
-                    Debug.Log("sound located");
                     m_audioPlayer.PlayOneShot(m_audioData[i]);
                 }
             }
