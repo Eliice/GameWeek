@@ -277,6 +277,7 @@ public class Player : MonoBehaviour
         {
             m_Stamina_Bar.value = 1;
             m_Stamina_Bar.value = m_Stamina_Bar.maxValue;
+            noStamina = false;
         }
     }
 
