@@ -55,14 +55,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float m_minForce = 1.5f;
     [SerializeField]
-    private float spentStaminaFactor = 1;
-
-    
-    [SerializeField]
-    private int m_MaxStamina = 20000;
-    private float m_currentStamina;
-
-
+    private float spentStaminaFactor = 7;
 
     private Slider m_strenghtBar = null;
     private Slider m_Stamina_Bar = null;
@@ -99,11 +92,6 @@ public class Player : MonoBehaviour
     private static Player instance;
 
 
-
-    [SerializeField]
-    private AudioClip JumpReception = null;
-    [SerializeField]
-    private List<AudioClip> FootSteps;
 
     private RigidbodyConstraints m_dashConstraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ;
     private RigidbodyConstraints m_standardConstraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionZ;
@@ -148,8 +136,6 @@ public class Player : MonoBehaviour
         m_force = m_minForce;
         m_renderer = GetComponent<SpriteRenderer>();
         m_audioPlayer = GetComponent<AudioSource>();
-
-        m_currentStamina = m_MaxStamina;
     }
 
     private void Start()
@@ -197,7 +183,6 @@ public class Player : MonoBehaviour
         else
             canGoForward = true;
 
-        SoundCheck();
         //Debug.Log("Forward : " + canGoForward);
     }
 
@@ -269,10 +254,9 @@ public class Player : MonoBehaviour
     {
         if (m_Stamina_Bar != null)
         {
-            
-            m_currentStamina -= forceSpent * spentStaminaFactor;
-            
-            m_Stamina_Bar.value = m_currentStamina / m_MaxStamina;
+
+            m_Stamina_Bar.value -= forceSpent / spentStaminaFactor * m_Stamina_Bar.maxValue / m_forceLimit;
+
             if (m_Stamina_Bar.value == m_Stamina_Bar.minValue)
                 noStamina = true;
         }
@@ -281,7 +265,10 @@ public class Player : MonoBehaviour
     void CheckStamina ()
     {
         if (noStamina)
+        {
             GameMng.Instance.SpawnPlayer();
+            ResetStamina();
+        }
     }
 
     public void ResetStamina ()
@@ -289,7 +276,7 @@ public class Player : MonoBehaviour
         if (m_Stamina_Bar != null)
         {
             m_Stamina_Bar.value = 1;
-            m_currentStamina = m_MaxStamina;
+            m_Stamina_Bar.value = m_Stamina_Bar.maxValue;
         }
     }
 
@@ -327,6 +314,11 @@ public class Player : MonoBehaviour
         ResetForce();
     }
 
+    public void ResetMusic()
+    {
+        //AudioSource.
+    }
+
     private void SoundCheck()
     {
         string name = m_renderer.sprite.name;
@@ -347,12 +339,5 @@ public class Player : MonoBehaviour
     {
         Transitions transition = GameObject.Find("Transitions").GetComponent<Transitions>();
         transition.StartTransition();
-    }
-
-
-    public void ResetMusic()
-    {
-        m_audioPlayer.Stop();
-        m_audioPlayer.Play(2);
     }
 }
