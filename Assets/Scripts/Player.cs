@@ -55,7 +55,14 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float m_minForce = 1.5f;
     [SerializeField]
-    private float spentStaminaFactor = 10;
+    private float spentStaminaFactor = 1;
+
+    
+    [SerializeField]
+    private int m_MaxStamina = 20000;
+    private float m_currentStamina;
+
+
 
     private Slider m_strenghtBar = null;
     private Slider m_Stamina_Bar = null;
@@ -136,6 +143,8 @@ public class Player : MonoBehaviour
         m_force = m_minForce;
         m_renderer = GetComponent<SpriteRenderer>();
         m_audioPlayer = GetComponent<AudioSource>();
+
+        m_currentStamina = m_MaxStamina;
     }
 
     private void Start()
@@ -254,8 +263,10 @@ public class Player : MonoBehaviour
     {
         if (m_Stamina_Bar != null)
         {
-            m_Stamina_Bar.value -= forceSpent / spentStaminaFactor * m_Stamina_Bar.maxValue / m_forceLimit;
-
+            
+            m_currentStamina -= forceSpent * spentStaminaFactor;
+            
+            m_Stamina_Bar.value = m_currentStamina / m_MaxStamina;
             if (m_Stamina_Bar.value == m_Stamina_Bar.minValue)
                 noStamina = true;
         }
@@ -270,7 +281,10 @@ public class Player : MonoBehaviour
     public void ResetStamina ()
     {
         if (m_Stamina_Bar != null)
-            m_Stamina_Bar.value = m_Stamina_Bar.maxValue;
+        {
+            m_Stamina_Bar.value = 1;
+            m_currentStamina = m_MaxStamina;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
