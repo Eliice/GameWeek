@@ -15,6 +15,7 @@ public class Controller : MonoBehaviour
     {
         checkDash();
         checkJump();
+        checkQuit();
     }
 
     virtual protected void Move()
@@ -28,6 +29,11 @@ public class Controller : MonoBehaviour
     }
 
     virtual protected void checkDash()
+    {
+
+    }
+
+    virtual protected void checkQuit()
     {
 
     }

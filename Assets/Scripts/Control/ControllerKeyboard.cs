@@ -65,6 +65,12 @@ public class ControllerKeyboard : Controller
         }
     }
 
+    protected override void checkQuit()
+    {
+        if (Input.GetKey(KeyCode.Escape))
+            Application.Quit();
+    }
+
     protected void OnDestroy()
     {
         instance = null;
