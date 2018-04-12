@@ -9,8 +9,7 @@ public class OneShootObstacle : MonoBehaviour {
     {
         if (other.gameObject.tag == "Player")
         {
-            Animator Anim = other.GetComponent<Animator>();
-            Anim.SetTrigger("Death");
+            GameMng.Instance.SpawnPlayer();
         }
     }
 

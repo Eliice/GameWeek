@@ -337,7 +337,6 @@ public class Player : MonoBehaviour
         }
     }
 
-
     public void RespawnTransition()
     {
         Transitions transition = GameObject.Find("Transitions").GetComponent<Transitions>();

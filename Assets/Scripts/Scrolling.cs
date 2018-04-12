@@ -28,6 +28,13 @@ public class Scrolling : MonoBehaviour {
     #endregion
 
 
+    public void ReplaceCamera(float newPosX)
+    {
+        Vector3 pos = transform.position;
+        pos.x = newPosX;
+        transform.position = pos;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")

@@ -1,5 +1,6 @@
 ﻿
 using UnityEngine;
+using System.Collections;
 using UnityEngine.SceneManagement;
 
 
@@ -48,7 +49,6 @@ public class GameMng : MonoBehaviour {
 
     public void SwitchInput()
     {
-        Debug.Log("switch controler done");
         if (m_keyboardInput)
             SwithcToPad();
         else
@@ -92,11 +92,27 @@ public class GameMng : MonoBehaviour {
         }
         else
         {
-            m_playerObject.transform.position = m_respawn;
-            Vector3 pos = m_camera.transform.position;
-            pos.x = m_respawn.x;
-            m_camera.transform.position = pos;
-            Debug.Log("player respawn animation");
+            m_player.CharacterAnimator.SetTrigger("Death");
+            StartCoroutine(DelayRespawn(2f));
         }
+    }
+
+
+    private IEnumerator DelayRespawn(float timer)
+    {
+        float m_currentTime = 0f;
+        while(m_currentTime < timer)
+        {
+            Debug.Log("in routine iteration");
+            yield return new WaitForEndOfFrame();
+            m_currentTime += Time.deltaTime;
+        }
+        if(!m_camera)
+            m_camera = Camera.main.gameObject;
+        m_player.CharacterAnimator.ResetTrigger("Death");
+        m_playerObject.transform.position = m_respawn;
+        Vector3 pos = m_camera.transform.position;
+        pos.x = m_respawn.x;
+        m_camera.transform.position = pos;
     }
 }
