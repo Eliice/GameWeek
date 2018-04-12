@@ -9,7 +9,10 @@ public class OneShootObstacle : MonoBehaviour {
 
     private void Start()
     {
-        Destroy(gameObject, autoDestroyDelay);
+        if (autoDestroyDelay == 0)
+            return;
+        else
+            Destroy(gameObject, autoDestroyDelay);
     }
 
 
