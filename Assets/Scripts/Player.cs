@@ -192,6 +192,7 @@ public class Player : MonoBehaviour
         else
             canGoForward = true;
 
+        SoundCheck();
         //Debug.Log("Forward : " + canGoForward);
     }
 
@@ -324,12 +325,15 @@ public class Player : MonoBehaviour
     private void SoundCheck()
     {
         string name = m_renderer.sprite.name;
+        Debug.Log("in checkSound");
         if (m_frameName.Contains(name))
         {
+            Debug.Log("name check");
             for (int i = 0; i < m_frameName.Count; i++)
             {
                 if (m_frameName[i] == name)
                 {
+                    Debug.Log("sound located");
                     m_audioPlayer.PlayOneShot(m_audioData[i]);
                 }
             }
@@ -341,5 +345,12 @@ public class Player : MonoBehaviour
     {
         Transitions transition = GameObject.Find("Transitions").GetComponent<Transitions>();
         transition.StartTransition();
+    }
+
+
+    public void ResetMusic()
+    {
+        m_audioPlayer.Stop();
+        m_audioPlayer.Play(2);
     }
 }
