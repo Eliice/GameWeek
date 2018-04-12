@@ -29,6 +29,8 @@ public class OneShootObstacle : MonoBehaviour {
     {
         if (other.gameObject.tag == "Player")
         {
+            if(!m_audiSource)
+                m_audiSource = GetComponent<AudioSource>();
             m_audiSource.Play();
             GameMng.Instance.SpawnPlayer();
         }
