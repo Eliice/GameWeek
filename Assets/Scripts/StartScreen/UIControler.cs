@@ -1,10 +1,11 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class UIControler : MonoBehaviour {
 
+    [SerializeField]
+    private Canvas beforVideo = null;
 
     private bool isStartingScreen = true;
 	private Transitions Transition;
@@ -19,16 +20,42 @@ public class UIControler : MonoBehaviour {
 
     private float currentTime = 0;
 
+
+    [SerializeField]
+    private GameObject bg = null;
     [SerializeField]
     private float m_loadingTime = 2f;
 
+    private AudioSource[] audio = null;
+
+    private bool videoSeen = false;
 	// Use this for initialization
 	void Start () {
-		
+        Handheld.PlayFullScreenMovie("cinematicvfinale.mp4",Color.black,FullScreenMovieControlMode.CancelOnInput);
+        audio = Camera.main.GetComponents<AudioSource>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
+
+        if(currentTime < 7f)
+        {
+            currentTime += Time.deltaTime;
+        }
+        else
+        {
+            if (videoSeen)
+                return;
+            m_startingScreen.SetActive(true);
+            bg.SetActive(true);
+            foreach (AudioSource item in audio)
+            {
+                item.Play();
+            }
+            videoSeen = true;
+        }
+
+
         if (Input.anyKey)
         {
             if(isStartingScreen)
