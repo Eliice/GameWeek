@@ -7,7 +7,7 @@ public class UIControler : MonoBehaviour {
     [SerializeField]
     private Canvas beforVideo = null;
 
-    private bool isStartingScreen = true;
+    private bool isStartingScreen = false;
 	private Transitions Transition;
 
     [SerializeField]
@@ -43,22 +43,25 @@ public class UIControler : MonoBehaviour {
         }
         else
         {
-            if (videoSeen)
-                return;
-            m_startingScreen.SetActive(true);
-            bg.SetActive(true);
-            foreach (AudioSource item in audio)
+            if (!videoSeen)
             {
-                item.Play();
+                m_startingScreen.SetActive(true);
+                bg.SetActive(true);
+                foreach (AudioSource item in audio)
+                {
+                    item.Play();
+                }
+                videoSeen = true;
+                isStartingScreen = true;
             }
-            videoSeen = true;
         }
 
 
         if (Input.anyKey)
         {
-            if(isStartingScreen)
+            if (isStartingScreen)
             {
+                
                 Transition = GameObject.Find("Canvas").GetComponent<Transitions>();
                 Transition.Animator.SetTrigger("SwitchScreen");
                 isStartingScreen = false;

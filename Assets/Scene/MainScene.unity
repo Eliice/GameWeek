@@ -5822,7 +5822,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1705873589
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6879,8 +6879,8 @@ MonoBehaviour:
   m_startingScreen: {fileID: 1028299931}
   m_menuScreen: {fileID: 1198874254}
   m_loadingScreen: {fileID: 1946023268}
+  bg: {fileID: 1847532458}
   m_loadingTime: 3
-  m_titre: {fileID: 0}
 --- !u!224 &2137188588
 RectTransform:
   m_ObjectHideFlags: 0
