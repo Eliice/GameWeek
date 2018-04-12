@@ -316,9 +316,14 @@ public class Player : MonoBehaviour
     }
 
     public void ResetMusic()
+
     {
-        //AudioSource.
+        m_audioPlayer.Stop();
+
+        m_audioPlayer.Play(2);
+
     }
+
 
     private void SoundCheck()
     {
