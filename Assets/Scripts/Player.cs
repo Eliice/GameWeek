@@ -346,4 +346,11 @@ public class Player : MonoBehaviour
         Transitions transition = GameObject.Find("Transitions").GetComponent<Transitions>();
         transition.StartTransition();
     }
+
+
+    public void ResetMusic()
+    {
+        m_audioPlayer.Stop();
+        m_audioPlayer.Play(2);
+    }
 }
