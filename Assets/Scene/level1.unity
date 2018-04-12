@@ -5941,7 +5941,7 @@ Prefab:
     - target: {fileID: 114457121660693694, guid: fbb02dd52b56654418c69a9709049c70,
         type: 2}
       propertyPath: m_newCameraSpeed
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 54900424289343138, guid: fbb02dd52b56654418c69a9709049c70, type: 2}
