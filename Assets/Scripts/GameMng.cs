@@ -95,6 +95,7 @@ public class GameMng : MonoBehaviour {
         {
             m_player.CharacterAnimator.SetTrigger("Death");
             m_player.ResetMusic();
+            m_player.ResetStamina();
             StartCoroutine(DelayRespawn(2f));
         }
     }
