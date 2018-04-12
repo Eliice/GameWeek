@@ -5,9 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class UIControler : MonoBehaviour {
 
-    private bool LogoIsart = true;
-    private bool video = false;
-    private bool isStartingScreen = false;
+
+    private bool isStartingScreen = true;
 	private Transitions Transition;
 
     [SerializeField]
@@ -17,15 +16,6 @@ public class UIControler : MonoBehaviour {
 
     [SerializeField]
     private GameObject m_loadingScreen = null;
-
-    [SerializeField]
-    private GameObject m_IsartLogo = null;
-
-    [SerializeField]
-    private GameObject m_video = null;
-
-    [SerializeField]
-    private GameObject m_bg = null;
 
     private float currentTime = 0;
 
@@ -39,31 +29,6 @@ public class UIControler : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if(LogoIsart)
-        {
-            if (currentTime > 2)
-            {
-                m_IsartLogo.SetActive(false);
-                //m_video.SetActive(true);
-                LogoIsart = false;
-                //video = true;
-                currentTime = 0;
-                m_bg.SetActive(true);
-                m_startingScreen.SetActive(true);
-                isStartingScreen = true;
-                AudioSource[]  source = Camera.main.GetComponents<AudioSource>();
-                foreach (AudioSource item in source)
-                {
-                    item.Play();
-                }
-            }
-            else
-                currentTime += Time.deltaTime;
-        }
-        if(video)
-        {
-            //((MovieTexture)m_video.renderer.guiTexture).Play();
-        }
         if (Input.anyKey)
         {
             if(isStartingScreen)
