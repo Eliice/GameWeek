@@ -89,6 +89,7 @@ public class GameMng : MonoBehaviour {
             m_playerObject.transform.SetParent(spawnParent.transform);
             m_playerObject.transform.position = spawnParent.transform.position;
             m_camera = Camera.main.gameObject;
+            m_player.ResetStamina();
         }
         else
         {
