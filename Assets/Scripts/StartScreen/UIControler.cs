@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Video;
 
 public class UIControler : MonoBehaviour {
 
@@ -53,6 +54,7 @@ public class UIControler : MonoBehaviour {
                 }
                 videoSeen = true;
                 isStartingScreen = true;
+                GetComponent<VideoPlayer>().enabled = false;
             }
         }
 

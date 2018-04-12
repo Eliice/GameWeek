@@ -394,8 +394,8 @@ Camera:
   m_GameObject: {fileID: 221343341}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -1343,7 +1343,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &972917911
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1418,7 +1418,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1028299934}
   - component: {fileID: 1028299933}
-  - component: {fileID: 1028299932}
   m_Layer: 5
   m_Name: StartingScreen
   m_TagString: Untagged
@@ -1426,33 +1425,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!114 &1028299932
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1028299931}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
 --- !u!222 &1028299933
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6879,7 +6851,7 @@ MonoBehaviour:
   m_startingScreen: {fileID: 1028299931}
   m_menuScreen: {fileID: 1198874254}
   m_loadingScreen: {fileID: 1946023268}
-  bg: {fileID: 1847532458}
+  bg: {fileID: 972917910}
   m_loadingTime: 3
 --- !u!224 &2137188588
 RectTransform:
