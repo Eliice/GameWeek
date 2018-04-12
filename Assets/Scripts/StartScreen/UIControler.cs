@@ -31,7 +31,6 @@ public class UIControler : MonoBehaviour {
     private bool videoSeen = false;
 	// Use this for initialization
 	void Start () {
-        Handheld.PlayFullScreenMovie("cinematicvfinale.mp4",Color.black,FullScreenMovieControlMode.CancelOnInput);
         audio = Camera.main.GetComponents<AudioSource>();
 	}
 	
