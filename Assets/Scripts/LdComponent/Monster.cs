@@ -3,12 +3,10 @@
 public class Monster : MonoBehaviour {
 
     private Transform m_target = null;
-	
-	void Update () {
+
+    void Update () {
         if (!m_target)
             m_target = Player.Instance.transform;
-        else
-            return;
        Vector3 pos = transform.position;
        pos.y = m_target.position.y;
        transform.position = pos;
