@@ -264,11 +264,9 @@ MonoBehaviour:
   m_frameName:
   - dash0002
   - death0008
-  - death0008
   m_audioData:
   - {fileID: 8300000, guid: b0e62005ac880ba4aabde25a5d91e0ab, type: 3}
   - {fileID: 8300000, guid: cd73268761addf648af91c744d5ba0f4, type: 3}
-  - {fileID: 8300000, guid: 2c0b77d98142cbd418d618d0fc9c4607, type: 3}
   m_speed: 5
   m_forceIncrement: 4
   m_forceLimit: 10
@@ -277,6 +275,12 @@ MonoBehaviour:
   m_MaxStamina: 200
   dashFactor: 1
   dashTime: 1
+  JumpReception: {fileID: 0}
+  FootSteps:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!212 &212304327929197678
 SpriteRenderer:
   m_ObjectHideFlags: 1

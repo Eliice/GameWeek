@@ -100,6 +100,11 @@ public class Player : MonoBehaviour
 
 
 
+    [SerializeField]
+    private AudioClip JumpReception = null;
+    [SerializeField]
+    private List<AudioClip> FootSteps;
+
     private RigidbodyConstraints m_dashConstraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ;
     private RigidbodyConstraints m_standardConstraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionZ;
 
