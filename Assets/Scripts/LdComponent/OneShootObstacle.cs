@@ -7,12 +7,14 @@ public class OneShootObstacle : MonoBehaviour {
     [SerializeField] 
     private float autoDestroyDelay = 2f;
 
+    private AudioSource m_audiSource = null;
     private void Start()
     {
         if (autoDestroyDelay == 0)
             return;
         else
             Destroy(gameObject, autoDestroyDelay);
+        m_audiSource = GetComponent<AudioSource>();
     }
 
 
@@ -27,6 +29,7 @@ public class OneShootObstacle : MonoBehaviour {
     {
         if (other.gameObject.tag == "Player")
         {
+            m_audiSource.Play();
             GameMng.Instance.SpawnPlayer();
         }
     }
