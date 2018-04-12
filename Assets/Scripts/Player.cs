@@ -276,7 +276,7 @@ public class Player : MonoBehaviour
     void CheckStamina ()
     {
         if (noStamina)
-            Debug.Log("Boom t'es MORT !");
+            GameMng.Instance.SpawnPlayer();
     }
 
     public void ResetStamina ()
