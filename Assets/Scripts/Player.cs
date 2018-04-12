@@ -276,7 +276,7 @@ public class Player : MonoBehaviour
     void CheckStamina ()
     {
         if (noStamina)
-            Debug.Log("Boom t'es MORT !");
+            GameMng.Instance.SpawnPlayer();
     }
 
     public void ResetStamina ()
@@ -345,5 +345,12 @@ public class Player : MonoBehaviour
     {
         Transitions transition = GameObject.Find("Transitions").GetComponent<Transitions>();
         transition.StartTransition();
+    }
+
+
+    public void ResetMusic()
+    {
+        m_audioPlayer.Stop();
+        m_audioPlayer.Play(2);
     }
 }
