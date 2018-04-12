@@ -15,7 +15,7 @@ public class UIControler : MonoBehaviour {
 
     [SerializeField]
     private GameObject m_loadingScreen = null;
-
+    
 
     [SerializeField]
     private float m_loadingTime = 2f;
@@ -31,8 +31,12 @@ public class UIControler : MonoBehaviour {
             return;
         if (Input.anyKey)
         {
-			Transition = GameObject.Find("Canvas").GetComponent<Transitions>();
-			Transition.Animator.SetTrigger("SwitchScreen");
+            if(isStartingScreen)
+            {
+                Transition = GameObject.Find("Canvas").GetComponent<Transitions>();
+                Transition.Animator.SetTrigger("SwitchScreen");
+                isStartingScreen = false;
+            }
         }
     }
 
@@ -40,7 +44,6 @@ public class UIControler : MonoBehaviour {
     {
         m_startingScreen.SetActive(false);
         m_menuScreen.SetActive(true);
-        isStartingScreen = false;
     }
 
     public void Exit()
@@ -73,5 +76,7 @@ public class UIControler : MonoBehaviour {
             timer += Time.deltaTime;
         }
         StartGame();
+        Transition = GameObject.Find("Transitions").GetComponent<Transitions>();
+        Transition.Animator.SetTrigger("LoadScene");
     }
 }

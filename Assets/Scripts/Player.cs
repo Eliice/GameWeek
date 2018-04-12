@@ -183,7 +183,7 @@ public class Player : MonoBehaviour
         else
             canGoForward = true;
 
-        Debug.Log("Forward : " + canGoForward);
+        //Debug.Log("Forward : " + canGoForward);
     }
 
     public void AddForce()
@@ -321,5 +321,12 @@ public class Player : MonoBehaviour
             }
 
         }
+    }
+
+
+    public void RespawnTransition()
+    {
+        Transitions transition = GameObject.Find("Transitions").GetComponent<Transitions>();
+        transition.StartTransition();
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor.SceneManagement;
 
 public class Transitions : MonoBehaviour {
 
@@ -19,16 +20,28 @@ public class Transitions : MonoBehaviour {
 		GM = Manager.GetComponent<GameMng>();
 		Controler = Manager.GetComponent<UIControler>();
 	}
+
+
 	public void LoadingScreen()
 	{
 		Controler.LoadPlayScene();
 	}
-	public void Respawn()
-	{
-		GM.SpawnPlayer();
-	}
+
+
 	public void SwitchScreen()
 	{
 		Controler.SwitchScreen();
 	}
+
+
+    public void StartTransition()
+    {
+        Animator.SetTrigger("Death");
+    }
+
+
+    public void Respawn()
+    {
+        GM.SpawnPlayer();
+    }
 }

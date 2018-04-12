@@ -5,14 +5,15 @@ public class OneShootObstacle : MonoBehaviour {
     [SerializeField]
     private float m_speed = 0f;
 
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
         {
-            GameMng.Instance.SpawnPlayer();
+            Animator Anim = other.GetComponent<Animator>();
+            Anim.SetTrigger("Death");
         }
     }
+
 
     private void Update()
     {
@@ -20,5 +21,4 @@ public class OneShootObstacle : MonoBehaviour {
         pos.x += m_speed * Time.deltaTime;
         transform.position = pos;
     }
-
 }
